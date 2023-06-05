@@ -2,8 +2,8 @@ import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter, Router } from 'react-router-dom/cjs/react-router-dom.min';
-import App from '../App';
 import { createMemoryHistory } from 'history';
+import App from '../App';
 
 const emailInputID = 'email-input';
 const passwordInputID = 'password-input';
