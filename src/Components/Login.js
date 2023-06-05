@@ -21,7 +21,9 @@ function Login() {
   };
 
   const handleClick = () => {
-    localStorage.setItem('user', email);
+    localStorage.setItem('user', JSON.stringify({
+      email,
+    }));
     history.push('/recipes');
   };
 
