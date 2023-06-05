@@ -24,7 +24,7 @@ function Login() {
     localStorage.setItem('user', JSON.stringify({
       email,
     }));
-    history.push('/recipes');
+    history.push('/meals');
   };
 
   return (
