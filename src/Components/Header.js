@@ -74,7 +74,7 @@ function Header() {
         <Link to="/profile" data-testid="profile-top-btn" src={ profileIcon }>
           <img src={ profileIcon } alt="Perfil" />
         </Link>
-        {/*ícone de pesquis */}
+        {/* ícone de pesquis */}
         {renderSearchButton()}
       </div>
       {/* ítulo da página dependendo da rota atual */}
