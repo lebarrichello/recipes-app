@@ -4,7 +4,7 @@ import './App.css';
 // import rockGlass from './images/rockGlass.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
-import appFooter from './Components/Footer';
+// import appFooter from './Components/Footer';
 
 function App() {
   return (
