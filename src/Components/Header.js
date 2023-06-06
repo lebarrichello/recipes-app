@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const location = useLocation(); // localização atual da rota
@@ -18,11 +19,7 @@ function Header() {
   const renderSearchBar = () => {
     if (showSearch) {
       return (
-        <input
-          type="text"
-          placeholder="Search..."
-          data-testid="search-input"
-        />
+        <SearchBar />
       );
     }
     return null;
