@@ -14,6 +14,7 @@ function Drinks(props) {
         alt={ name }
         src={ image }
         data-testid={ `${index}-card-img` }
+        width="200px"
       />
     </div>
   );

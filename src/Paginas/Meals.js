@@ -14,10 +14,12 @@ function Meals(props) {
         alt={ name }
         src={ image }
         data-testid={ `${index}-card-img` }
+        width="200px"
       />
     </div>
   );
 }
+
 Meals.propTypes = {
   name: PropTypes.string,
   image: PropTypes.string,

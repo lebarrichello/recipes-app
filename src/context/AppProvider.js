@@ -3,12 +3,12 @@ import { useMemo, useState } from 'react';
 import AppContext from './AppContext';
 
 function AppProvider({ children }) {
-  const [productsList, setProductsList] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
-  const values = useMemo({
-    productsList,
-    setProductsList,
-  }, []);
+  const values = useMemo(() => ({
+    recipes,
+    setRecipes,
+  }), [recipes]);
 
   return (
     <AppContext.Provider value={ values }>

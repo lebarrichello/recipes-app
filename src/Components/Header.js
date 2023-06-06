@@ -8,7 +8,6 @@ import SearchBar from './SearchBar';
 function Header() {
   const location = useLocation(); // localização atual da rota
   const [showSearch, setShowSearch] = useState(false);
-  console.log(location);
 
   // alternar a exibição da barra de busca
   const toggleSearch = () => {
@@ -19,7 +18,7 @@ function Header() {
   const renderSearchBar = () => {
     if (showSearch) {
       return (
-        <SearchBar />
+        <SearchBar type={ location.pathname.split('/')[1] } />
       );
     }
     return null;
