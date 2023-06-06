@@ -3,6 +3,8 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom/cjs/react-router-
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Components/Login';
+// import appFooter from './Components/Footer';
+import Meals from './Paginas/Meals';
 import Profile from './Paginas/Profile';
 import Recipes from './Paginas/Recipes';
 import Done from './Paginas/DoneRecipes';
