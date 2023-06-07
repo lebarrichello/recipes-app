@@ -4,27 +4,27 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import appFooter from './Components/Footer';
 import AppProvider from './context/AppProvider';
-import RecipeDetailsFood from './pages/RecipeDetailsFood';
-import RecipeDetailsDrink from './pages/RecipeDetailsDrink';
+import RecipeDetailsDrinks from './pages/RecipeDetailsDrinks';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoritesRecipes from './pages/FavoritesRecipes';
-import Meals from './pages/Meals';
-import Drinks from './pages/Drinks';
-import Login from './components backup/Login';
+import Login from './pages/Login';
+import Recipes from './pages/Recipes';
+import RecipeDetailsMeals from './pages/RecipeDetailsMeals';
 
 function App() {
   return (
     <AppProvider>
       <Switch>
         <Route exact path="/" component={ Login } />
-        <Route path="/meals" component={ Meals } />
-        <Route path="/drinks" component={ Drinks } />
-        <Route path="/meals/:id" component={ RecipeDetailsFood } />
-        <Route path="/drinks/:id" component={ RecipeDetailsDrink } />
+        <Route exact path="/meals" component={ Recipes } />
+        <Route exact path="/drinks" component={ Recipes } />
+        <Route path="/meals/:id" component={ RecipeDetailsMeals } />
+        <Route path="/drinks/:id" component={ RecipeDetailsDrinks } />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoritesRecipes } />
+        <Route component={ Login } />
       </Switch>
     </AppProvider>
   );

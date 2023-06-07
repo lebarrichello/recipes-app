@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from '../styles/RecipeDetails.module.css';
-import PlayerYoutube from '../components backup/PlayerYoutube';
+import PlayerYoutube from '../components/PlayerYoutube';
 import { getDrinkRecipeWithId,
   getFoodsRecomendatios } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
-import Loading from '../components backup/Loading';
+import Loading from '../components/Loading';
 
-function RecipeDetailsDrink() {
+function RecipeDetailsDrinks() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
@@ -29,8 +29,6 @@ function RecipeDetailsDrink() {
     };
     getRecipe();
   }, [history, id]);
-
-  console.log(recipe);
 
   return isLoading ? (<Loading />) : (
     <main>
@@ -110,4 +108,4 @@ function RecipeDetailsDrink() {
   );
 }
 
-export default RecipeDetailsDrink;
+export default RecipeDetailsDrinks;

@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../components backup/Header';
+import Header from '../components/Header';
 
 function FavoritesRecipes() {
   return (

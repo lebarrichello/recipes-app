@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from '../styles/RecipeDetails.module.css';
 import { getFoodRecipeWithId, getDrinksRecomendations } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
-import Loading from '../components backup/Loading';
-import PlayerYoutube from '../components backup/PlayerYoutube';
+import Loading from '../components/Loading';
+import PlayerYoutube from '../components/PlayerYoutube';
 
-function RecipeDetailsFood() {
+function RecipeDetailsMeals() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
@@ -82,7 +82,7 @@ function RecipeDetailsFood() {
             return (
               <div
                 key={ index }
-                className={ styles.imgRecipeRecomendation }
+                className={ styles.divRecipe }
                 data-testid={ `${index}-recommendation-card` }
               >
                 <img
@@ -105,4 +105,4 @@ function RecipeDetailsFood() {
   );
 }
 
-export default RecipeDetailsFood;
+export default RecipeDetailsMeals;
