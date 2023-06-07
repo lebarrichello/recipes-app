@@ -1,3 +1,10 @@
+.main {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
 .imgRecipe {
   height: 300px;
   width: 300px;
@@ -20,5 +27,17 @@
   height: 175px;
   margin: 10px;
   text-align: center;
+  width: 150px;
+}
+
+.startRecipeBtn {
+  background-color: coral;
+  border: none;
+  border-radius: 10px;
+  bottom: 0;
+  color: white;
+  height: 35px;
+  left: calc((100vw / 2) - 75px);
+  position: fixed;
   width: 150px;
 }

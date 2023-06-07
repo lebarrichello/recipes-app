@@ -7,6 +7,7 @@ import { getDrinkRecipeWithId,
   getFoodsRecomendatios } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
+import getStatusRecipe from '../services/getStatusRecipe';
 
 function RecipeDetailsDrinks() {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +15,7 @@ function RecipeDetailsDrinks() {
   const [recipe, setRecipe] = useState({});
   const history = useHistory();
   const [recomendations, setRecomendations] = useState([]);
+  const [statusRecipe, setStatusRecipe] = useState('NoProgress');
   // idFood = 52977
   // idDrink = 15997
 
@@ -28,6 +30,7 @@ function RecipeDetailsDrinks() {
       setIsLoading(false);
     };
     getRecipe();
+    setStatusRecipe(getStatusRecipe());
   }, [history, id]);
 
   return isLoading ? (<Loading />) : (
@@ -104,6 +107,15 @@ function RecipeDetailsDrinks() {
           return null;
         })}
       </section>
+      {statusRecipe !== 'Done' && (
+        <button
+          className={ styles.startRecipeBtn }
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          {statusRecipe === 'NoProgress' ? 'Start Recipe' : 'Continue Recipe'}
+        </button>
+      )}
     </main>
   );
 }
