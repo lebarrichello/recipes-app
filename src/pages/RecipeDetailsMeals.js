@@ -5,12 +5,14 @@ import { getFoodRecipeWithId, getDrinksRecomendations } from '../services/fetchF
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
 import PlayerYoutube from '../components/PlayerYoutube';
+import getStatusRecipe from '../services/getStatusRecipe';
 
 function RecipeDetailsMeals() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [recomendations, setRecomendations] = useState([]);
+  const [statusRecipe, setStatusRecipe] = useState('NoProgress');
   // idFood = 52977
   // idDrink = 15997
 
@@ -25,6 +27,7 @@ function RecipeDetailsMeals() {
       setIsLoading(false);
     };
     getRecipe();
+    setStatusRecipe(getStatusRecipe());
   }, [id]);
 
   return isLoading ? (<Loading />) : (
@@ -101,6 +104,15 @@ function RecipeDetailsMeals() {
           return null;
         })}
       </section>
+      {statusRecipe !== 'Done' && (
+        <button
+          className={ styles.startRecipeBtn }
+          type="button"
+          data-testid="start-recipe-btn"
+        >
+          {statusRecipe === 'NoProgress' ? 'Start Recipe' : 'Continue Recipe'}
+        </button>
+      )}
     </main>
   );
 }
