@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import Footer from '../components/Footer';
 import Meals from '../components/Meals';
 import Drinks from '../components/Drinks';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Recipes() {
   const { recipes, setRecipes } = useContext(AppContext);
