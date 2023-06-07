@@ -3,11 +3,11 @@ import { Link, useLocation } from 'react-router-dom';
 
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const location = useLocation(); // localização atual da rota
   const [showSearch, setShowSearch] = useState(false);
-  console.log(location);
 
   // alternar a exibição da barra de busca
   const toggleSearch = () => {
@@ -18,11 +18,7 @@ function Header() {
   const renderSearchBar = () => {
     if (showSearch) {
       return (
-        <input
-          type="text"
-          placeholder="Search..."
-          data-testid="search-input"
-        />
+        <SearchBar type={ location.pathname.split('/')[1] } />
       );
     }
     return null;
