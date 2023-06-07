@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom';
-import RecipeDetailsFood from '../Components/RecipeDetailsFood';
-import RecipeDetailsDrink from '../Components/RecipeDetailsDrink';
+import RecipeDetailsFood from './RecipeDetailsFood';
+import RecipeDetailsDrink from './RecipeDetailsDrink';
 
 function RecipeDetails() {
   const history = useHistory();

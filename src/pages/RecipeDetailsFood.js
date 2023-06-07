@@ -1,54 +1,49 @@
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from '../styles/RecipeDetails.module.css';
-import Loading from './Loading';
-import PlayerYoutube from './PlayerYoutube';
-import { getDrinkRecipeWithId,
-  getFoodsRecomendatios } from '../services/fetchFunctions';
+import { getFoodRecipeWithId, getDrinksRecomendations } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
+import Loading from '../components backup/Loading';
+import PlayerYoutube from '../components backup/PlayerYoutube';
 
-function RecipeDetailsDrink() {
+function RecipeDetailsFood() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
-  const history = useHistory();
   const [recomendations, setRecomendations] = useState([]);
   // idFood = 52977
   // idDrink = 15997
 
   useEffect(() => {
     const getRecipe = async () => {
-      const drinkRecipe = await getDrinkRecipeWithId(id);
-      setRecipe(drinkRecipe);
+      const foodRecipe = await getFoodRecipeWithId(id);
+      setRecipe(foodRecipe);
 
-      const recomendationsRecipes = await getFoodsRecomendatios();
+      const recomendationsRecipes = await getDrinksRecomendations();
       setRecomendations(recomendationsRecipes);
 
       setIsLoading(false);
     };
     getRecipe();
-  }, [history, id]);
-
-  console.log(recipe);
+  }, [id]);
 
   return isLoading ? (<Loading />) : (
     <main>
       <img
         className={ styles.imgRecipe }
-        src={ recipe.strDrinkThumb }
+        src={ recipe.strMealThumb }
         alt="Recipe Preview"
         data-testid="recipe-photo"
       />
       <h1
         data-testid="recipe-title"
       >
-        { recipe.strDrink}
+        {recipe.strMeal}
       </h1>
       <h2
         data-testid="recipe-category"
       >
-        { recipe.strAlcoholic}
+        {recipe.strCategory}
 
       </h2>
       <section>
@@ -81,24 +76,24 @@ function RecipeDetailsDrink() {
         className={ styles.divRecomendations }
       >
         <h2>Recomendations</h2>
-        {recomendations.map(({ strMealThumb, strMeal }, index) => {
+        {recomendations.map(({ strDrinkThumb, strDrink }, index) => {
           const numberMinRecipes = 6;
           if (index < numberMinRecipes) {
             return (
               <div
                 key={ index }
-                className={ styles.divRecipe }
+                className={ styles.imgRecipeRecomendation }
                 data-testid={ `${index}-recommendation-card` }
               >
                 <img
-                  src={ strMealThumb }
+                  src={ strDrinkThumb }
                   alt="Recommended Recipe Preview"
                   className={ styles.imgRecipeRecomendation }
                 />
                 <h2
                   data-testid={ `${index}-recommendation-title` }
                 >
-                  {strMeal}
+                  {strDrink}
                 </h2>
               </div>
             );
@@ -110,4 +105,4 @@ function RecipeDetailsDrink() {
   );
 }
 
-export default RecipeDetailsDrink;
+export default RecipeDetailsFood;
