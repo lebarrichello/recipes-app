@@ -54,20 +54,23 @@ function SearchBar({ type }) {
       return;
     }
     const apiRequest = `${searchURL}${inputSearch}`;
-    const response = await fetchProducts(apiRequest);
-    console.log(response[type]);
-    if (response[type] && response[type].length === 1) {
-      if (type === 'meals') {
-        history.push(`/meals/${response[type][0].idMeal}`);
-      } else {
-        history.push(`/drinks/${response[type][0].idDrink}`);
+    try {
+      const response = await fetchProducts(apiRequest);
+      if (response[type] && response[type].length === 1) {
+        if (type === 'meals') {
+          history.push(`/meals/${response[type][0].idMeal}`);
+        } else {
+          history.push(`/drinks/${response[type][0].idDrink}`);
+        }
       }
+      /* if (response[type] === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+        return;
+      } */
+      setRecipes(response[type].splice(0, TWELVE));
+    } catch (error) {
+      global.alert(error.message);
     }
-    if (response[type] === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-      return;
-    }
-    setRecipes(response[type].splice(0, TWELVE));
   };
 
   return (

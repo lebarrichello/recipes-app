@@ -30,21 +30,23 @@ function Recipe() {
   return (
     <div>
       <Header />
-      { location.pathname === '/meals' ? recipes.map((recipe, i) => (
-        <Meals
-          key={ recipe.strMeal }
-          name={ recipe.strMeal }
-          image={ recipe.strMealThumb }
-          index={ i }
-        />
-      )) : recipes.map((recipe, i) => (
-        <Drinks
-          key={ recipe.strDrink }
-          name={ recipe.strDrink }
-          image={ recipe.strDrinkThumb }
-          index={ i }
-        />
-      ))}
+      <span>
+        { location.pathname === '/meals' ? recipes.map((recipe, i) => (
+          <Meals
+            key={ recipe.strMeal }
+            name={ recipe.strMeal }
+            image={ recipe.strMealThumb }
+            index={ i }
+          />
+        )) : recipes.map((recipe, i) => (
+          <Drinks
+            key={ recipe.strDrink }
+            name={ recipe.strDrink }
+            image={ recipe.strDrinkThumb }
+            index={ i }
+          />
+        ))}
+      </span>
     </div>
   );
 }
