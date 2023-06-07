@@ -13,7 +13,8 @@
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^5.3.4",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-youtube": "^10.1.0"
   },
   "scripts": {
     "cy": "env CY_CLI=true cypress run",

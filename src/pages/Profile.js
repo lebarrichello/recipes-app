@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Header from '../Components/Header';
+import Header from '../components/Header';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user')) || { email: '' };
