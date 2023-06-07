@@ -1,29 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import drinkIcon from '../images/drinkIcon.svg';
+// import mealIcon from '../images/mealIcon.svg';
 
-const appFooter = () => (
-  <div
-    style={ {
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: '60px',
-      backgroundColor: 'spacelaround',
-      alignItems: 'center',
-    } }
-    data-testid="footer"
-  >
-    <div>
-      <Link to="/comidas" data-testid="meals-bottom-btn">
-        <img src="src/images/mealIcon.svg" alt="Comidas" />
+function Footer() {
+  return (
+    <>
+      <div>Footer </div>
+      <footer
+        data-testid="footer"
+        style={ { position: 'fixed', bottom: 0 } }
+      >
+        <div>
 
-      </Link>
-      <Link to="/Bebidas" data-testid="drinks-bottom-btn">
-        <img src="src/images/drinkIcon.svg" alt="Bebidas" />
-      </Link>
-    </div>
+          <Link to="/meals" data-testid="meals-bottom-btn">
+            <img src="./images/mealIcon.svg" alt="Meals" />
+          </Link>
+          <Link to="/drinks" data-testid="drinks-bottom-btn">
+            <img src="./images/drinkIcon.svg" alt="Drinks" />
+          </Link>
 
-  </div>
-);
-export default appFooter;
+        </div>
+      </footer>
+
+    </>
+  );
+}
+
+export default Footer;

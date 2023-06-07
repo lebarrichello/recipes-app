@@ -4,6 +4,7 @@ import Meals from './Meals';
 import Drinks from './Drinks';
 import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
+import Footer from '../Components/Footer';
 
 function Recipe() {
   const { recipes, setRecipes } = useContext(AppContext);
@@ -47,6 +48,7 @@ function Recipe() {
           />
         ))}
       </span>
+      <Footer />
     </div>
   );
 }

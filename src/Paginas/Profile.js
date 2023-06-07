@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
+import Footer from '../Components/Footer';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user')) || { email: '' };
@@ -46,7 +47,7 @@ function Profile() {
           Logout
         </button>
       </div>
-
+      <Footer />
     </>
   );
 }
