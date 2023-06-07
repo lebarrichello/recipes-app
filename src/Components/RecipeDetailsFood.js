@@ -88,7 +88,7 @@ function RecipeDetailsFood() {
                 <img
                   src={ strDrinkThumb }
                   alt="Recommended Recipe Preview"
-                  className={ styles.imgRecipe }
+                  className={ styles.imgRecipeRecomendation }
                 />
                 <h2
                   data-testid={ `${index}-recommendation-title` }

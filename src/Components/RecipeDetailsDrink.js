@@ -87,13 +87,13 @@ function RecipeDetailsDrink() {
             return (
               <div
                 key={ index }
-                className={ styles.imgRecipeRecomendation }
+                className={ styles.divRecipe }
                 data-testid={ `${index}-recommendation-card` }
               >
                 <img
                   src={ strMealThumb }
                   alt="Recommended Recipe Preview"
-                  className={ styles.imgRecipe }
+                  className={ styles.imgRecipeRecomendation }
                 />
                 <h2
                   data-testid={ `${index}-recommendation-title` }
