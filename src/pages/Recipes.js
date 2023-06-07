@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import Meals from './Meals';
-import Drinks from './Drinks';
-import Header from '../Components/Header';
 import AppContext from '../context/AppContext';
-import Footer from '../Components/Footer';
+import Footer from '../components/Footer';
+import Meals from '../components/Meals';
+import Drinks from '../components/Drinks';
+import Header from '../components/Header';
 
-function Recipe() {
+function Recipes() {
   const { recipes, setRecipes } = useContext(AppContext);
   const location = useLocation();
   const API_FOOD = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -26,7 +26,7 @@ function Recipe() {
       }
     };
     fetchRecipes();
-  }, []);
+  }, [location, setRecipes]);
 
   return (
     <div>
@@ -53,4 +53,4 @@ function Recipe() {
   );
 }
 
-export default Recipe;
+export default Recipes;

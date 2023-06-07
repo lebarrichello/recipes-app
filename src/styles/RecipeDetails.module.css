@@ -1,0 +1,24 @@
+.imgRecipe {
+  height: 300px;
+  width: 300px;
+}
+
+.divRecomendations {
+  height: 250px;
+  overflow-x: scroll;
+  white-space: nowrap;
+  width: 90vw;
+}
+
+.imgRecipeRecomendation {
+  height: 150px;
+  width: 150px;
+}
+
+.divRecipe {
+  display: inline-block;
+  height: 175px;
+  margin: 10px;
+  text-align: center;
+  width: 150px;
+}
