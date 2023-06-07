@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { fetchProducts } from '../services/fetchProducts';
+import AppContext from '../context/AppContext';
 
 const FIRSTLETTER = 'first-letter';
+const TWELVE = 12;
 
-function SearchBar(foodOrDrink) {
+function SearchBar({ type }) {
   const [typeSearch, setTypeSearch] = useState('');
   const [inputSearch, setInputSearch] = useState('');
+  const { setRecipes } = useContext(AppContext);
+  const history = useHistory();
 
   const handlefoodOrDrink = () => {
-    foodOrDrink = 'food';
     if (typeSearch === '') {
       global.alert('Please select one of the types');
       return;
@@ -16,7 +22,7 @@ function SearchBar(foodOrDrink) {
       global.alert('Please write on the box an ingredient, a name or a first letter');
       return;
     }
-    if (foodOrDrink === 'food') {
+    if (type === 'meals') {
       if (typeSearch === 'ingredient') {
         return ('https://www.themealdb.com/api/json/v1/1/filter.php?i=');
       }
@@ -27,7 +33,7 @@ function SearchBar(foodOrDrink) {
         return ('https://www.themealdb.com/api/json/v1/1/search.php?f=');
       }
     }
-    if (foodOrDrink === 'drink') {
+    if (type === 'drinks') {
       if (typeSearch === 'ingredient') {
         return ('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=');
       }
@@ -38,19 +44,30 @@ function SearchBar(foodOrDrink) {
     }
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const searchURL = handlefoodOrDrink();
     if (typeSearch === '' || inputSearch === '') {
       return;
     }
     if (typeSearch === FIRSTLETTER && inputSearch.length > 1) {
-      global.alert('The search with first letter was done with more than 1 letter.');
+      global.alert('Your search must have only 1 (one) character');
       return;
     }
     const apiRequest = `${searchURL}${inputSearch}`;
-    console.log(apiRequest);
-    // fetchData(apiRequest);
-    // setProductsList(fetchData)
+    const response = await fetchProducts(apiRequest);
+    console.log(response[type]);
+    if (response[type] && response[type].length === 1) {
+      if (type === 'meals') {
+        history.push(`/meals/${response[type][0].idMeal}`);
+      } else {
+        history.push(`/drinks/${response[type][0].idDrink}`);
+      }
+    }
+    if (response[type] === null) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return;
+    }
+    setRecipes(response[type].splice(0, TWELVE));
   };
 
   return (
@@ -109,5 +126,9 @@ function SearchBar(foodOrDrink) {
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  type: PropTypes.string.isRequired,
+};
 
 export default SearchBar;

@@ -1,50 +1,52 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Meals from './Meals';
 import Drinks from './Drinks';
+import Header from '../Components/Header';
+import AppContext from '../context/AppContext';
 
 function Recipe() {
-  const [recipes, setRecipes] = useState([]);
-  const path = window.location.pathname;
-  const foodPath = path === '/meals';
+  const { recipes, setRecipes } = useContext(AppContext);
+  const location = useLocation();
   const API_FOOD = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const API_DRINK = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  const NUMBER = 11;
+  const TWELVE = 12;
 
   useEffect(() => {
-    if (foodPath) {
-      fetch(API_FOOD)
-        .then((response) => response.json())
-        .then(({ food }) => {
-          const recipesData = food.slice(0, NUMBER);
-          setRecipes(recipesData);
-        });
-    } else {
-      fetch(API_DRINK)
-        .then((response) => response.json())
-        .then(({ drinks }) => {
-          const recipesData = drinks.slice(0, NUMBER);
-          setRecipes(recipesData);
-        });
-    }
-  }, [foodPath]);
+    const fetchRecipes = async () => {
+      if (location.pathname === '/meals') {
+        const response = await fetch(API_FOOD);
+        const foodData = await response.json();
+        setRecipes(foodData.meals.splice(0, TWELVE));
+      } else {
+        const response = await fetch(API_DRINK);
+        const drinkData = await response.json();
+        setRecipes(drinkData.drinks.splice(0, TWELVE));
+      }
+    };
+    fetchRecipes();
+  }, []);
+
   return (
-    <main>
-      { foodPath ? recipes.map((recipe, i) => (
+    <div>
+      <Header />
+      { location.pathname === '/meals' ? recipes.map((recipe, i) => (
         <Meals
           key={ recipe.strMeal }
           name={ recipe.strMeal }
-          imgSrc={ recipe.strMealThumb }
-          SrcIndex={ i }
+          image={ recipe.strMealThumb }
+          index={ i }
         />
       )) : recipes.map((recipe, i) => (
         <Drinks
           key={ recipe.strDrink }
           name={ recipe.strDrink }
-          imgSrc={ recipe.strDrinkThumb }
-          SrcIndex={ i }
+          image={ recipe.strDrinkThumb }
+          index={ i }
         />
       ))}
-    </main>
+    </div>
   );
 }
+
 export default Recipe;
