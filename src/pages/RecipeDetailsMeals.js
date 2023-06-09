@@ -7,6 +7,7 @@ import { extractIngredientsFunction } from '../services/extractIngredientsFuncti
 import Loading from '../components/Loading';
 import PlayerYoutube from '../components/PlayerYoutube';
 import getStatusRecipe from '../services/getStatusRecipe';
+import { onClickFavoriteMealBtn } from '../services/onClickFuntions';
 
 function RecipeDetailsMeals() {
   const history = useHistory();
@@ -14,7 +15,8 @@ function RecipeDetailsMeals() {
   const [isLoading, setIsLoading] = useState(true);
   const [recipe, setRecipe] = useState({});
   const [recomendations, setRecomendations] = useState([]);
-  const [statusRecipe, setStatusRecipe] = useState('NoProgress');
+  const [statusRecipe, setStatusRecipe] = useState({ progress: 'NoProgress',
+    isFavorite: false });
   const [linkCopied, setLinkCopied] = useState(false);
   // idFood = 52977
   // idDrink = 15997
@@ -30,7 +32,7 @@ function RecipeDetailsMeals() {
       setIsLoading(false);
     };
     getRecipe();
-    setStatusRecipe(getStatusRecipe());
+    setStatusRecipe(getStatusRecipe(id));
   }, [id]);
 
   return isLoading ? (<Loading />) : (
@@ -58,12 +60,15 @@ function RecipeDetailsMeals() {
       <button
         type="button"
         data-testid="favorite-btn"
+        onClick={ () => setStatusRecipe({
+          ...statusRecipe,
+          isFavorite: onClickFavoriteMealBtn(id, recipe),
+        }) }
+        src={ statusRecipe.isFavorite
+          ? '../images/blackHeartIcon.svg'
+          : '../images/whiteHeartIcon.svg' }
       >
-        <i>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <use xlinkHref="../images/blackHeartIcon.svg" />
-          </svg>
-        </i>
+        Favoritar
       </button>
       {linkCopied && <p>Link copied!</p>}
       <h1
@@ -132,8 +137,8 @@ function RecipeDetailsMeals() {
           return null;
         })}
       </section>
-      {statusRecipe !== 'Done' && (
-        statusRecipe === 'NoProgress' ? (
+      {statusRecipe.progress !== 'Done' && (
+        statusRecipe.progress === 'NoProgress' ? (
           <button
             className={ styles.startRecipeBtn }
             type="button"
