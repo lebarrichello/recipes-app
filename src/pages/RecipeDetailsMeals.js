@@ -1,18 +1,23 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import clipboardCopy from 'clipboard-copy';
 import styles from '../styles/RecipeDetails.module.css';
 import { getFoodRecipeWithId, getDrinksRecomendations } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
 import PlayerYoutube from '../components/PlayerYoutube';
 import getStatusRecipe from '../services/getStatusRecipe';
+import { onClickFavoriteMealBtn } from '../services/onClickFuntions';
 
 function RecipeDetailsMeals() {
-  const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [recipe, setRecipe] = useState({});
   const [recomendations, setRecomendations] = useState([]);
-  const [statusRecipe, setStatusRecipe] = useState('NoProgress');
+  const [statusRecipe, setStatusRecipe] = useState({ progress: 'NoProgress',
+    isFavorite: false });
+  const [linkCopied, setLinkCopied] = useState(false);
   // idFood = 52977
   // idDrink = 15997
 
@@ -27,7 +32,7 @@ function RecipeDetailsMeals() {
       setIsLoading(false);
     };
     getRecipe();
-    setStatusRecipe(getStatusRecipe());
+    setStatusRecipe(getStatusRecipe(id));
   }, [id]);
 
   return isLoading ? (<Loading />) : (
@@ -38,6 +43,34 @@ function RecipeDetailsMeals() {
         alt="Recipe Preview"
         data-testid="recipe-photo"
       />
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ () => {
+          clipboardCopy(window.location.href);
+          setLinkCopied(true);
+        } }
+      >
+        <i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <use xlinkHref="../images/shareIcon.svg" />
+          </svg>
+        </i>
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => setStatusRecipe({
+          ...statusRecipe,
+          isFavorite: onClickFavoriteMealBtn(id, recipe),
+        }) }
+        src={ statusRecipe.isFavorite
+          ? '../images/blackHeartIcon.svg'
+          : '../images/whiteHeartIcon.svg' }
+      >
+        Favoritar
+      </button>
+      {linkCopied && <p>Link copied!</p>}
       <h1
         data-testid="recipe-title"
       >
@@ -104,14 +137,25 @@ function RecipeDetailsMeals() {
           return null;
         })}
       </section>
-      {statusRecipe !== 'Done' && (
-        <button
-          className={ styles.startRecipeBtn }
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          {statusRecipe === 'NoProgress' ? 'Start Recipe' : 'Continue Recipe'}
-        </button>
+      {statusRecipe.progress !== 'Done' && (
+        statusRecipe.progress === 'NoProgress' ? (
+          <button
+            className={ styles.startRecipeBtn }
+            type="button"
+            data-testid="start-recipe-btn"
+            onClick={ () => history.push(`/meals/${id}/in-progress`) }
+          >
+            Start Recipe
+          </button>
+        ) : (
+          <button
+            className={ styles.startRecipeBtn }
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Continue Recipe
+          </button>
+        )
       )}
     </main>
   );

@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
-import App from '../App';
-import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
+import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
 const mockEmail = 'teste@trybe.com';
 const profFavoriteBtnStr = 'profile-favorite-btn';
@@ -19,7 +19,7 @@ describe('Testando a página de perfil', () => {
   });
   it('Se o email do localStorage está visível', () => {
     localStorage.setItem('user', JSON.stringify({
-      email: 'teste@trybe.com',
+      email: mockEmail,
     }));
     renderWithRouterAndContext(<App />, '/profile');
     const profileEmail = screen.getByTestId('profile-email');
@@ -49,7 +49,7 @@ describe('Testando a página de perfil', () => {
   it('Se a página redireciona para a inicial e limpa o localStorage ao clicar no botão Logout', () => {
     const { history } = renderWithRouterAndContext(<App />, '/profile');
     localStorage.setItem('user', JSON.stringify({
-      email: 'teste@trybe.com',
+      email: mockEmail,
     }));
     const profLogoutBtn = screen.getByTestId(profLogoutBtnStr);
     act(() => userEvent.click(profLogoutBtn));
