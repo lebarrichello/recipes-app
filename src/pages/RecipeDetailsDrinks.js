@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import clipboardCopy from 'clipboard-copy';
 import styles from '../styles/RecipeDetails.module.css';
 import PlayerYoutube from '../components/PlayerYoutube';
 import { getDrinkRecipeWithId,
@@ -16,6 +17,7 @@ function RecipeDetailsDrinks() {
   const history = useHistory();
   const [recomendations, setRecomendations] = useState([]);
   const [statusRecipe, setStatusRecipe] = useState('NoProgress');
+  const [linkCopied, setLinkCopied] = useState(false);
   // idFood = 52977
   // idDrink = 15997
 
@@ -31,7 +33,7 @@ function RecipeDetailsDrinks() {
     };
     getRecipe();
     setStatusRecipe(getStatusRecipe());
-  }, [history, id]);
+  }, [id]);
 
   return isLoading ? (<Loading />) : (
     <main>
@@ -41,6 +43,31 @@ function RecipeDetailsDrinks() {
         alt="Recipe Preview"
         data-testid="recipe-photo"
       />
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ () => {
+          clipboardCopy(window.location.href);
+          setLinkCopied(true);
+        } }
+      >
+        <i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <use xlinkHref="../images/shareIcon.svg" />
+          </svg>
+        </i>
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        <i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <use xlinkHref="../images/blackHeartIcon.svg" />
+          </svg>
+        </i>
+      </button>
+      {linkCopied && <p>Link copied!</p>}
       <h1
         data-testid="recipe-title"
       >
@@ -108,13 +135,24 @@ function RecipeDetailsDrinks() {
         })}
       </section>
       {statusRecipe !== 'Done' && (
-        <button
-          className={ styles.startRecipeBtn }
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          {statusRecipe === 'NoProgress' ? 'Start Recipe' : 'Continue Recipe'}
-        </button>
+        statusRecipe === 'NoProgress' ? (
+          <button
+            className={ styles.startRecipeBtn }
+            type="button"
+            data-testid="start-recipe-btn"
+            onClick={ () => history.push(`/drinks/${id}/in-progress`) }
+          >
+            Start Recipe
+          </button>
+        ) : (
+          <button
+            className={ styles.startRecipeBtn }
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            Continue Recipe
+          </button>
+        )
       )}
     </main>
   );

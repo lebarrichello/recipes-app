@@ -5,7 +5,6 @@ function getStatusRecipe() {
   const doneRecipes = JSON
     .parse(localStorage.getItem('doneRecipes')) || [];
 
-  console.log(progressRecipes);
   if (progressRecipes || progressRecipes?.meals) {
     return 'InProgress';
   } if (doneRecipes.find((doneRecipe) => doneRecipe.id === id)) {
