@@ -66,10 +66,10 @@ function Recipes() {
       <div>
         <button
           data-testid="All-category-filter"
-          onClick={() => {
+          onClick={ () => {
             fetchRecipes();
             setCategories([]);
-          }}
+          } }
         >
           All
         </button>
