@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
-import App from '../App';
-import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
+import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 
 const mockEmail = 'teste@trybe.com';
 const profFavoriteBtnStr = 'profile-favorite-btn';
