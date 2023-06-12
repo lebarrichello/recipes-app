@@ -4,10 +4,13 @@ import AppContext from './AppContext';
 
 function AppProvider({ children }) {
   const [recipes, setRecipes] = useState([]);
+  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
 
   const values = useMemo(() => ({
     recipes,
     setRecipes,
+    favoriteRecipes,
+    setFavoriteRecipes,
   }), [recipes]);
 
   return (
