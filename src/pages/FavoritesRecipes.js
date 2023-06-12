@@ -1,10 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import AppContext from '../context/AppContext';
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 
 function FavoriteRecipes() {
-  const { favoriteRecipes } = useContext(AppContext);
+  const { favoriteRecipes, setFavoriteRecipes } = useContext(AppContext);
+
+  useEffect(() => {
+    const storedFavoriteRecipes = localStorage.getItem('favoriteRecipes');
+    if (storedFavoriteRecipes) {
+      setFavoriteRecipes(JSON.parse(storedFavoriteRecipes));
+    }
+  }, [setFavoriteRecipes]);
+
+  useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  }, [favoriteRecipes]);
 
   return (
     <div>
