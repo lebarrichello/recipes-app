@@ -34,7 +34,6 @@ function RecipeDetailsMeals() {
     getRecipe();
     setStatusRecipe(getStatusRecipe(id));
   }, [id]);
-
   return isLoading ? (<Loading />) : (
     <main>
       <img

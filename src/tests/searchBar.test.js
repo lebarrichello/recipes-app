@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, act } from '@testing-library/react';
+import { screen, act, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
@@ -53,7 +53,7 @@ describe('Testando o componente SearchBar', () => {
     });
     expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken');
   });
-  it('Testando se o elemento faz a busca e retorna receitas de corba', async () => {
+  it.only('Testando se o elemento faz a busca e retorna receita de corba', async () => {
     const { history } = renderWithRouterAndContext(<App />, '/meals');
     const searchEnablerBtn = screen.getByTestId(searchTopBtn);
     act(() => userEvent.click(searchEnablerBtn));
@@ -66,8 +66,15 @@ describe('Testando o componente SearchBar', () => {
       userEvent.click(execSearchBtn);
     });
     expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=corba');
-    await screen.findByText(/recipe details/i);
+    await waitFor(() => {
+      const loadingElement = screen.queryByRole('heading', { name: /carregando.../i });
+      expect(loadingElement).toBeInTheDocument();
+    });
+    await waitForElementToBeRemoved(screen.queryByRole('heading', { name: /carregando.../i }));
+    expect(fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52977');
     expect(history.location.pathname).toBe('/meals/52977');
+    const corbaTitle = await screen.findByText('heading', { name: /corba/i });
+    expect(corbaTitle).toBeInTheDocument();
   });
   it('Testando se o elemento faz a busca e retorna receitas de f como primeira letra', () => {
     act(() => renderWithRouterAndContext(<App />, '/meals'));
