@@ -16,7 +16,7 @@ function FavoriteRecipes() {
             data-testid={ `${index}-horizontal-image` }
           />
           <p data-testid={ `${index}-horizontal-top-text` }>
-            {`${recipe.area} - ${recipe.category}`}
+            {`${recipe.nationality} - ${recipe.category}`}
           </p>
           <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
           <button
@@ -33,6 +33,24 @@ function FavoriteRecipes() {
           </button>
         </div>
       ))}
+      <button
+        type="button"
+        data-testid="filter-by-all-btn"
+      >
+        All
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-meal-btn"
+      >
+        Meals
+      </button>
+      <button
+        type="button"
+        data-testid="filter-by-drink-btn"
+      >
+        Drinks
+      </button>
     </div>
   );
 }
