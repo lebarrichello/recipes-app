@@ -1,0 +1,45 @@
+.container__profile {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.container__profile h2 {
+  align-self: flex-start;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.container__profile h2 span {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.container__profile button {
+  align-items: center;
+  background-color: transparent;
+  border: orange solid 1px;
+  border-radius: 8px;
+  color: orange;
+  display: flex;
+  font-weight: 600;
+  justify-content: center;
+  padding: 12px 16px;
+  position: relative;
+  width: 100%;
+}
+
+.container__profile button:hover {
+  background-color: orange;
+  color: white;
+  text-decoration: none;
+}
+
+.profile__button-icons {
+  margin-left: 0;
+  margin-right: 80%;
+  position: absolute;
+}

@@ -1,67 +1,160 @@
-import React, { useContext, useEffect } from 'react';
-import AppContext from '../context/AppContext';
-import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
-import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import '../styles/FavoriteRecipes.css';
 
 function FavoriteRecipes() {
-  const { favoriteRecipes, setFavoriteRecipes } = useContext(AppContext);
+  const [favRecipes, setFavRecipes] = useState([]);
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [filter, setFilter] = useState('All');
 
   useEffect(() => {
-    const storedFavoriteRecipes = localStorage.getItem('favoriteRecipes');
-    if (storedFavoriteRecipes) {
-      setFavoriteRecipes(JSON.parse(storedFavoriteRecipes));
-    }
-  }, [setFavoriteRecipes]);
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes', []));
+    setFavRecipes(getFavorites);
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-  }, [favoriteRecipes]);
+  const handleBtnShare = (type, id) => {
+    setLinkCopied(true);
+    navigator.clipboard.writeText(`${window.location.origin}/${type}s/${id}`);
+  };
+
+  const handleBtnDesliked = (r) => {
+    const favorited = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newFavorited = favorited.filter((e) => e.id !== r.id);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorited));
+    setFavRecipes(newFavorited);
+  };
 
   return (
     <div>
-      {favoriteRecipes.map((recipe, index) => (
-        <div key={ index }>
-          <img
-            src={ recipe.image }
-            alt={ recipe.name }
-            data-testid={ `${index}-horizontal-image` }
-          />
-          <p data-testid={ `${index}-horizontal-top-text` }>
-            {`${recipe.nationality} - ${recipe.category}`}
-          </p>
-          <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
-          <button
-            type="button"
-            data-testid={ `${index}-horizontal-share-btn` }
-          >
-            <ShareIcon />
-          </button>
-          <button
-            type="button"
-            data-testid={ `${index}-horizontal-favorite-btn` }
-          >
-            <BlackHeartIcon />
-          </button>
-        </div>
-      ))}
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-      >
-        All
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-meal-btn"
-      >
-        Meals
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-      >
-        Drinks
-      </button>
+      <div className="container__fav-recipe-header">
+        <Header title="Profile" />
+      </div>
+
+      <div className="container__filter-buttons">
+        <button
+          className="filter-btn"
+          data-testid="filter-by-drink-btn"
+          type="button"
+          onClick={ () => setFilter('drinks') }
+        >
+          Drinks
+        </button>
+
+        <button
+          className="filter-btn"
+          data-testid="filter-by-meal-btn"
+          type="button"
+          onClick={ () => setFilter('meals') }
+        >
+          Meals
+        </button>
+
+        <button
+          className="filter-btn"
+          data-testid="filter-by-all-btn"
+          type="button"
+          onClick={ () => setFilter('all') }
+        >
+          All
+        </button>
+      </div>
+
+      <div className="container__fav-recipes-cards">
+        {
+          favRecipes.filter((element) => {
+            switch (filter) {
+            case 'meals': return element.type === 'meal';
+            case 'drinks': return element.type === 'drink';
+            default: return element;
+            }
+          })
+            .map((r, index) => (
+              <div
+                className="fav-recipe-card"
+                key={ index }
+              >
+                <Link
+                  className="fav-recipe-card__img-container"
+                  to={ `/${r.type}s/${r.id}` }
+                >
+                  <img
+                    className="fav-recipe-card__image"
+                    alt={ r.id }
+                    src={ r.image }
+                    width="200px"
+                    data-testid={ `${index}-horizontal-image` }
+                  />
+                </Link>
+
+                <div className="fav-recipe-card__content">
+                  <Link to={ `/${r.type}s/${r.id}` }>
+                    <div
+                      className="fav-recipe-card__name-link"
+                      data-testid={ `${index}-horizontal-name` }
+                    >
+                      <h3>{r.name}</h3>
+                    </div>
+                  </Link>
+                  {
+                    r.type === 'meal' ? (
+                      <p
+                        className="fav-recipe-card__nationality-category"
+                        data-testid={ `${index}-horizontal-top-text` }
+                      >
+                        {`${r.nationality} - ${r.category}`}
+                      </p>)
+                      : (
+                        <p
+                          className="fav-recipe-card__alcoholic-or-Not"
+                          data-testid={ `${index}-horizontal-top-text` }
+                        >
+                          {r.alcoholicOrNot}
+                        </p>)
+                  }
+                  <p
+                    className="done-recipe-card__done-date"
+                    data-testid={ `${index}-horizontal-done-date` }
+                  >
+                    {r.doneDate}
+
+                  </p>
+                  <div>
+                    <button
+                      className="fav-recipe-card__share-button"
+                      data-testid="share-btn"
+                      type="button"
+                      onClick={ () => handleBtnShare(r.type, r.id) }
+                    >
+                      <img
+                        data-testid={ `${index}-horizontal-share-btn` }
+                        alt="Share Icon"
+                        src={ shareIcon }
+                      />
+                    </button>
+                    <button
+                      className="fav-recipe-card__share-button"
+                      type="button"
+                      onClick={ () => handleBtnDesliked(r) }
+                    >
+                      <img
+                        data-testid={ `${index}-horizontal-favorite-btn` }
+                        src={ blackHeartIcon }
+                        alt="Like"
+                      />
+                    </button>
+                  </div>
+                  {
+                    linkCopied && <p>Link copied!</p>
+                  }
+                </div>
+              </div>
+            ))
+        }
+      </div>
+
     </div>
   );
 }

@@ -5,6 +5,7 @@ import Meals from '../components/Meals';
 import Drinks from '../components/Drinks';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import '../styles/Recipes.css';
 
 function Recipes() {
   const { recipes, setRecipes } = useContext(AppContext);
@@ -63,8 +64,9 @@ function Recipes() {
   return (
     <div>
       <Header />
-      <div>
+      <div className="container__filter-buttons">
         <button
+          className="filter-btn active"
           data-testid="All-category-filter"
           onClick={ () => {
             fetchRecipes();
@@ -75,6 +77,7 @@ function Recipes() {
         </button>
         {categories.map((categoryName, i) => (
           <button
+            className="filter-btn"
             key={ i }
             data-testid={ `${categoryName}-category-filter` }
             onClick={ () => handleCategoryClick(categoryName) }
@@ -83,23 +86,27 @@ function Recipes() {
           </button>
         ))}
       </div>
-      <span>
-        { location.pathname === '/meals' ? recipes.map((recipe, i) => (
-          <Meals
-            key={ recipe.strMeal }
-            name={ recipe.strMeal }
-            image={ recipe.strMealThumb }
-            index={ i }
-          />
-        )) : recipes.map((recipe, i) => (
-          <Drinks
-            key={ recipe.strDrink }
-            name={ recipe.strDrink }
-            image={ recipe.strDrinkThumb }
-            index={ i }
-          />
-        ))}
-      </span>
+      <div className="container__recipe-cards">
+        <span>
+          { location.pathname === '/meals' ? recipes.map((recipe, i) => (
+            <Meals
+              key={ recipe.strMeal }
+              name={ recipe.strMeal }
+              image={ recipe.strMealThumb }
+              index={ i }
+              idRecipe={ recipe.idMeal }
+            />
+          )) : recipes.map((recipe, i) => (
+            <Drinks
+              key={ recipe.strDrink }
+              name={ recipe.strDrink }
+              image={ recipe.strDrinkThumb }
+              index={ i }
+              idRecipe={ recipe.idDrink }
+            />
+          ))}
+        </span>
+      </div>
       <Footer />
     </div>
   );

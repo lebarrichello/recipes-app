@@ -1,0 +1,28 @@
+footer {
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  display: flex;
+  font-size: 0.857rem;
+  gap: 8px;
+  justify-content: space-around;
+  left: 0;
+  padding: 16px;
+  position: fixed;
+  width: 100%;
+}
+
+.footer-btn {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+}
+
+.footer-btn img:hover {
+  filter: invert(85%) sepia(35%) saturate(7075%)
+    hue-rotate(358deg) brightness(99%) contrast(107%);
+}
+
