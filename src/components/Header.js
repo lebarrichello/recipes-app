@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../styles/Header.css';
 
 function Header() {
   const location = useLocation(); // localização atual da rota
@@ -32,6 +32,7 @@ function Header() {
     if (searchPages.includes(location.pathname)) {
       return (
         <button
+          className="header__search-button"
           data-testid="search-top-btn"
           onClick={ toggleSearch }
           src={ searchIcon }
@@ -65,16 +66,25 @@ function Header() {
 
   return (
     <header>
-      <div>
-        {/* Renderiza o ícone de perfil como um link */}
-        <Link to="/profile" data-testid="profile-top-btn" src={ profileIcon }>
-          <img src={ profileIcon } alt="Perfil" />
-        </Link>
-        {/* ícone de pesquis */}
-        {renderSearchButton()}
+      <div className="container__header">
+        {/* ítulo da página dependendo da rota atual */}
+
+        <h1 data-testid="page-title">{getPageTitle()}</h1>
+        <div className="header__icons">
+          {/* ícone de pesquis */}
+          {renderSearchButton()}
+          {/* Renderiza o ícone de perfil como um link */}
+
+          <Link to="/profile" data-testid="profile-top-btn" src={ profileIcon }>
+            <img
+              className="profile-icon"
+              src={ profileIcon }
+              alt="Perfil"
+            />
+          </Link>
+        </div>
       </div>
-      {/* ítulo da página dependendo da rota atual */}
-      <h1 data-testid="page-title">{getPageTitle()}</h1>
+
       {/* barra de busca */}
       {renderSearchBar()}
     </header>

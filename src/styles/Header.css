@@ -1,0 +1,29 @@
+.container__header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.container__header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.header__icons {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+}
+
+.profile-icon {
+  color: black;
+  font-size: 20px;
+}
+
+.header__search-button {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+}

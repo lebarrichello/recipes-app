@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchProducts } from '../services/fetchProducts';
 import AppContext from '../context/AppContext';
+/* import '../styles/SearchBar.css'; */
 
 const FIRSTLETTER = 'first-letter';
 const TWELVE = 12;
@@ -74,58 +75,63 @@ function SearchBar({ type }) {
   };
 
   return (
-    <div className="search-bar">
-      <input
-        id="search-input"
-        type="text"
-        placeholder="Search..."
-        data-testid="search-input"
-        onChange={ (e) => setInputSearch(e.target.value) }
-        name={ inputSearch }
-        value={ inputSearch }
-      />
-      <label htmlFor="ingredient-search-radio">
-        Ingredient
+    <div className="container__search-bar">
+      <div className="search-bar__form">
         <input
-          type="radio"
-          name="search-radio"
-          data-testid="ingredient-search-radio"
-          id="ingredient-search-radio"
-          onChange={ (e) => setTypeSearch(e.target.value) }
-          checked={ typeSearch === 'ingredient' }
-          value="ingredient"
+          id="search-input"
+          type="text"
+          placeholder="Search..."
+          data-testid="search-input"
+          onChange={ (e) => setInputSearch(e.target.value) }
+          name={ inputSearch }
+          value={ inputSearch }
         />
-      </label>
-      <label htmlFor="name-search-radio">
-        Name
-        <input
-          type="radio"
-          name="search-radio"
-          data-testid="name-search-radio"
-          id="name-search-radio"
-          onChange={ (e) => setTypeSearch(e.target.value) }
-          checked={ typeSearch === 'name' }
-          value="name"
-        />
-      </label>
-      <label htmlFor="first-letter-search-radio">
-        First letter
-        <input
-          type="radio"
-          name="search-radio"
-          data-testid="first-letter-search-radio"
-          id="first-letter-search-radio"
-          onChange={ (e) => setTypeSearch(e.target.value) }
-          checked={ typeSearch === 'first-letter' }
-          value="first-letter"
-        />
-      </label>
-      <button
-        data-testid="exec-search-btn"
-        onClick={ handleClick }
-      >
-        Search
-      </button>
+
+        <button
+          data-testid="exec-search-btn"
+          onClick={ handleClick }
+        >
+          Search
+        </button>
+      </div>
+      <div className="container__radio-buttons">
+        <label className="filter-radio">
+          <input
+            type="radio"
+            data-testid="ingredient-search-radio"
+            id="ingredient-search-radio"
+            onChange={ (e) => setTypeSearch(e.target.value) }
+            checked={ typeSearch === 'ingredient' }
+            value="ingredient"
+          />
+          Ingredient
+          <span className="radiomark" />
+        </label>
+        <label className="filter-radio">
+          <input
+            type="radio"
+            data-testid="name-search-radio"
+            id="name-search-radio"
+            onChange={ (e) => setTypeSearch(e.target.value) }
+            checked={ typeSearch === 'name' }
+            value="name"
+          />
+          Name
+          <span className="radiomark" />
+        </label>
+        <label className="filter-radio">
+          <input
+            type="radio"
+            data-testid="first-letter-search-radio"
+            id="first-letter-search-radio"
+            onChange={ (e) => setTypeSearch(e.target.value) }
+            checked={ typeSearch === 'first-letter' }
+            value="first-letter"
+          />
+          First letter
+          <span className="radiomark" />
+        </label>
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
+import '../styles/DoneRecipes.css';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
@@ -21,12 +22,12 @@ function DoneRecipes() {
   return (
     <div>
       <div className="container__done-recipe-header">
-        <Header />
+        <Header title="Profile" />
       </div>
 
       <div className="container__filter-buttons">
         <button
-          className="filter-buttons__drinks"
+          className="filter-btn"
           data-testid="filter-by-drink-btn"
           type="button"
           onClick={ () => setFilter('drinks') }
@@ -35,7 +36,7 @@ function DoneRecipes() {
         </button>
 
         <button
-          className="filter-buttons__meals"
+          className="filter-btn"
           data-testid="filter-by-meal-btn"
           type="button"
           onClick={ () => setFilter('meals') }
@@ -44,7 +45,7 @@ function DoneRecipes() {
         </button>
 
         <button
-          className="filter-buttons__all"
+          className="filter-btn"
           data-testid="filter-by-all-btn"
           type="button"
           onClick={ () => setFilter('all') }
@@ -67,7 +68,10 @@ function DoneRecipes() {
                 className="done-recipe-card"
                 key={ index }
               >
-                <Link to={ `/${r.type}s/${r.id}` }>
+                <Link
+                  className="done-recipe-card__img-container"
+                  to={ `/${r.type}s/${r.id}` }
+                >
                   <img
                     className="done-recipe-card__image"
                     alt={ r.id }
@@ -76,69 +80,76 @@ function DoneRecipes() {
                     data-testid={ `${index}-horizontal-image` }
                   />
                 </Link>
-
-                <Link to={ `/${r.type}s/${r.id}` }>
-                  <div
-                    className="done-recipe-card__name-link"
-                    data-testid={ `${index}-horizontal-name` }
-                  >
-                    {r.name}
-                  </div>
-                </Link>
-
-                {
-                  r.type === 'meal' ? (
-                    <p
-                      className="done-recipe-card__nationality-category"
-                      data-testid={ `${index}-horizontal-top-text` }
+                <div className="done-recipe-card__content">
+                  <Link to={ `/${r.type}s/${r.id}` }>
+                    <div
+                      className="done-recipe-card__name-link"
+                      data-testid={ `${index}-horizontal-name` }
                     >
-                      {`${r.nationality} - ${r.category}`}
-                    </p>)
-                    : (
+                      <h3>{r.name}</h3>
+                    </div>
+                  </Link>
+
+                  {
+                    r.type === 'meal' ? (
                       <p
-                        className="done-recipe-card__alcoholic-or-Not"
+                        className="done-recipe-card__nationality-category"
                         data-testid={ `${index}-horizontal-top-text` }
                       >
-                        {r.alcoholicOrNot}
+                        {`${r.nationality} - ${r.category}`}
                       </p>)
-                }
-                <p
-                  className="done-recipe-card__done-date"
-                  data-testid={ `${index}-horizontal-done-date` }
-                >
-                  {r.doneDate}
-
-                </p>
-
-                {
-                  linkCopied && <p data-testid="copied-msg">Link copied!</p>
-                }
-                <div>
-                  {
-                    r.tags.map((tag) => (
-                      <div
-                        className="done-recipe-card__tags"
-                        data-testid={ `${index}-${tag}-horizontal-tag` }
-                        key={ tag }
-                      >
-                        #
-                        {tag}
-                      </div>
-                    ))
+                      : (
+                        <p
+                          className="done-recipe-card__alcoholic-or-Not"
+                          data-testid={ `${index}-horizontal-top-text` }
+                        >
+                          {r.alcoholicOrNot}
+                        </p>)
                   }
+                  <p
+                    className="done-recipe-card__done-date"
+                    data-testid={ `${index}-horizontal-done-date` }
+                  >
+                    {r.doneDate}
+
+                  </p>
+
+                  {
+                    linkCopied && <p data-testid="copied-msg">Link copied!</p>
+                  }
+                  <div>
+                    {
+                      r.tags.map((tag) => (
+                        <div
+                          className="done-recipe-card_tags__container"
+                          data-testid={ `${index}-${tag}-horizontal-tag` }
+                          key={ tag }
+                        >
+                          <span
+                            className="done-recipe-card_tags"
+                          >
+                            #
+                            {tag}
+
+                          </span>
+
+                        </div>
+                      ))
+                    }
+                  </div>
+                  <button
+                    className="fav-recipe-card__share-button"
+                    data-testid="share-btn"
+                    type="button"
+                    onClick={ () => handleBtnShare(r.type, r.id) }
+                  >
+                    <img
+                      data-testid={ `${index}-horizontal-share-btn` }
+                      alt="Share Icon"
+                      src={ shareIcon }
+                    />
+                  </button>
                 </div>
-                <button
-                  className="done-recipe-card__share-button"
-                  data-testid="share-btn"
-                  type="button"
-                  onClick={ () => handleBtnShare(r.type, r.id) }
-                >
-                  <img
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    alt="Share Icon"
-                    src={ shareIcon }
-                  />
-                </button>
               </div>
             ))
         }
