@@ -1,32 +1,38 @@
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
+import { Checkbox } from 'antd';
 import styles from '../styles/RecipeDetails.module.css';
 import PlayerYoutube from '../components/PlayerYoutube';
-import { getDrinkRecipeWithId,
-  getFoodsRecomendatios } from '../services/fetchFunctions';
+import { getFoodRecipeWithId, getFoodsRecomendatios } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
 import getStatusRecipe from '../services/getStatusRecipe';
 import { onClickFavoriteDrinkBtn } from '../services/onClickFuntions';
 
-function RecipeDetailsDrinks() {
+const CheckboxGroup = Checkbox.Group;
+
+function RecipeMealInProgress() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const history = useHistory();
   const [recomendations, setRecomendations] = useState([]);
-  const [statusRecipe, setStatusRecipe] = useState({ progress: 'NoProgress',
+  const [statusRecipe, setStatusRecipe] = useState({
+    progress: 'NoProgress',
     isFavorite: false });
+
   const [linkCopied, setLinkCopied] = useState(false);
-  // idFood = 52977
-  // idDrink = 15997
+  const [checkedIngredients, setCheckedIngredients] = useState([]);
+
+  const handleIngredientChange = (newIngredients) => {
+    setCheckedIngredients(newIngredients);
+  };
 
   useEffect(() => {
     const getRecipe = async () => {
-      const drinkRecipe = await getDrinkRecipeWithId(id);
-      setRecipe(drinkRecipe);
+      const mealRecipe = await getFoodRecipeWithId(id);
+      setRecipe(mealRecipe);
 
       const recomendationsRecipes = await getFoodsRecomendatios();
       setRecomendations(recomendationsRecipes);
@@ -37,7 +43,9 @@ function RecipeDetailsDrinks() {
     setStatusRecipe(getStatusRecipe(id));
   }, [id]);
 
-  return isLoading ? (<Loading />) : (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <main>
       <img
         className={ styles.imgRecipe }
@@ -66,101 +74,76 @@ function RecipeDetailsDrinks() {
           ...statusRecipe,
           isFavorite: onClickFavoriteDrinkBtn(id, recipe),
         }) }
-        src={ statusRecipe.isFavorite
-          ? '../images/blackHeartIcon.svg'
-          : '../images/whiteHeartIcon.svg' }
       >
+        {statusRecipe.isFavorite ? (
+          <img src="../images/blackHeartIcon.svg" alt="Favorite Icon" />
+        ) : (
+          <img src="../images/whiteHeartIcon.svg" alt="Favorite Icon" />
+        )}
         Favoritar
       </button>
       {linkCopied && <p>Link copied!</p>}
-      <h1
-        data-testid="recipe-title"
-      >
-        { recipe.strDrink}
-      </h1>
-      <h2
-        data-testid="recipe-category"
-      >
-        { recipe.strAlcoholic}
-
-      </h2>
+      <h1 data-testid="recipe-title">{recipe.strDrink}</h1>
+      <h2 data-testid="recipe-category">{recipe.strAlcoholic}</h2>
       <section>
-        { extractIngredientsFunction(recipe)
-          .map(({ ingredient, measure }, index) => (
-            <div key={ index }>
-              <span
-                data-testid={ `${index}-ingredient-name-and-measure` }
-              >
-                {measure ? (`${measure} ${ingredient}`) : (ingredient)}
-              </span>
-            </div>
-          ))}
-      </section>
-      <section
-        data-testid="instructions"
-      >
-        {recipe.strInstructions}
-      </section>
-      {recipe.strYoutube && (
-        <section
-          data-testid="video"
+        <CheckboxGroup
+          name="ingredients"
+          value={ checkedIngredients }
+          onChange={ handleIngredientChange }
         >
-          <PlayerYoutube
-            linkVideo={ recipe.strYoutube }
-          />
-        </section>
-      )}
-      <section
-        className={ styles.divRecomendations }
-      >
-        <h2>Recomendations</h2>
-        {recomendations.map(({ strMealThumb, strMeal }, index) => {
-          const numberMinRecipes = 6;
-          if (index < numberMinRecipes) {
-            return (
-              <div
-                key={ index }
-                className={ styles.divRecipe }
-                data-testid={ `${index}-recommendation-card` }
+          {extractIngredientsFunction(recipe).map(({ ingredient, measure }, index) => (
+            <label key={ index } data-testid={ `${index}-ingredient-step` }>
+              <Checkbox value={ ingredient } />
+              <span
+                className={
+                  checkedIngredients.includes(ingredient)
+                    ? `${styles.checkedIngredient}`
+                    : `${styles.uncheckedIngredient}`
+                }
               >
-                <img
-                  src={ strMealThumb }
-                  alt="Recommended Recipe Preview"
-                  className={ styles.imgRecipeRecomendation }
-                />
-                <h2
-                  data-testid={ `${index}-recommendation-title` }
-                >
-                  {strMeal}
-                </h2>
-              </div>
-            );
-          }
-          return null;
-        })}
+                {`${ingredient} - ${measure}`}
+              </span>
+            </label>
+          ))}
+        </CheckboxGroup>
       </section>
-      {statusRecipe.progress !== 'Done' && (
-        statusRecipe.progress === 'NoProgress' ? (
-          <button
-            className={ styles.startRecipeBtn }
-            type="button"
-            data-testid="start-recipe-btn"
-            onClick={ () => history.push(`/drinks/${id}/in-progress`) }
+      <section>
+        <h3>Instruções</h3>
+        <p data-testid="instructions">{recipe.strInstructions}</p>
+      </section>
+      <section>
+        <h3>Vídeo</h3>
+        <PlayerYoutube url={ recipe.strYoutube } />
+      </section>
+      <h3>Recomendações</h3>
+      <div className={ styles.carousel }>
+        {recomendations.map((food, index) => (
+          <div
+            key={ index }
+            className={ styles.card }
           >
-            Start Recipe
-          </button>
-        ) : (
-          <button
-            className={ styles.startRecipeBtn }
-            type="button"
-            data-testid="start-recipe-btn"
-          >
-            Continue Recipe
-          </button>
-        )
-      )}
+            <img
+              className={ styles.recomendationImg }
+              src={ food.strMealThumb }
+              alt={ food.strMeal }
+              data-testid={ `${index}-recomendation-card` }
+            />
+            <p data-testid={ `${index}-recomendation-title` }>{food.strMeal}</p>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        className={ styles.finishRecipeButton }
+        data-testid="finish-recipe-btn"
+        disabled={ checkedIngredients
+          .length !== extractIngredientsFunction(recipe).length }
+        onClick={ () => history.push('/receitas-feitas') }
+      >
+        Finalizar Receita
+      </button>
     </main>
   );
 }
 
-export default RecipeDetailsDrinks;
+export default RecipeMealInProgress;
