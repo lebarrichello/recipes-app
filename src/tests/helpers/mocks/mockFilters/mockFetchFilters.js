@@ -1,14 +1,14 @@
-import { mockDefaultDrinks, mockDefaultMeals } from './mocks/mockData';
-import { mockDefaultCategoriesDrinks, mockDefaultCategoriesMeals } from './mocks/mockDefaultCategories';
-import { mockBeefFilter } from './mocks/mockFilters/beefFilter';
-import { mockBreakfastFilter } from './mocks/mockFilters/breakfastFilter';
-import { mockCocktailFilter } from './mocks/mockFilters/cocktailFilter';
-import { mockCocoaFilter } from './mocks/mockFilters/cocoaFilter';
-import { mockDessertFilter } from './mocks/mockFilters/dessertFilter';
-import { mockGoatFilter } from './mocks/mockFilters/goatFilter';
-import { mockOrdinaryDrinkFilter } from './mocks/mockFilters/ordinaryDrinkFilter';
-import { mockOtherUnknownFilter } from './mocks/mockFilters/otherUnknownFilter';
-import { mockShakeFilter } from './mocks/mockFilters/shakeFilter';
+import { mockDefaultDrinks, mockDefaultMeals } from '../mockData';
+import { mockDefaultCategoriesDrinks, mockDefaultCategoriesMeals } from '../mockDefaultCategories';
+import { mockBeefFilter } from './beefFilter';
+import { mockBreakfastFilter } from './breakfastFilter';
+import { mockCocktailFilter } from './cocktailFilter';
+import { mockCocoaFilter } from './cocoaFilter';
+import { mockDessertFilter } from './dessertFilter';
+import { mockGoatFilter } from './goatFilter';
+import { mockOrdinaryDrinkFilter } from './ordinaryDrinkFilter';
+import { mockOtherUnknownFilter } from './otherUnknownFilter';
+import { mockShakeFilter } from './shakeFilter';
 
 const mockFetchFilters = (url) => {
   if (url.includes('https://www.themealdb.com/api/json/v1/1/search.php?s=')) {
