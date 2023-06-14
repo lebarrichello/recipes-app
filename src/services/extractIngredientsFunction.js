@@ -8,6 +8,8 @@ export function extractIngredientsFunction(recipe) {
       .includes('strMeasure'));
   const ingredients = arrayEntriesIngredients
     .reduce((acc, ingredient, index) => {
+      if (ingredient[1] === null) return acc;
+      if (ingredient[1].length === 0) return acc;
       acc = [...acc, {
         measure: arrayEntriesMeasures[index][1],
         ingredient: ingredient[1],

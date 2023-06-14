@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import { Checkbox } from 'antd';
 import styles from '../styles/RecipeDetails.module.css';
 import { getDrinkRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
 import getStatusRecipe from '../services/getStatusRecipe';
+
+const CheckboxGroup = Checkbox.Group;
 
 function RecipeDrinkInProgress() {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,17 +15,6 @@ function RecipeDrinkInProgress() {
   const [recipe, setRecipe] = useState({});
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
-
-  //   {
-  //     drinks: {
-  //         id-da-bebida: [lista-de-ingredientes-utilizados],
-  //         ...
-  //     },
-  //     meals: {
-  //         id-da-comida: [lista-de-ingredientes-utilizados],
-  //         ...
-  //     }
-  // }
 
   function updateCheckedIngredients(statusRecipe) {
     if (statusRecipe.progress === 'InProgress') {
@@ -55,6 +47,10 @@ function RecipeDrinkInProgress() {
     }
   }, [checkedIngredients, id, updateLocalStorage]);
 
+  const handleIngredientChange = (newIngredients) => {
+    setCheckedIngredients(newIngredients);
+  };
+
   const handleIngredientCheck = (index) => {
     if (checkedIngredients.includes(index)) {
       setCheckedIngredients(checkedIngredients.filter((i) => i !== index));
@@ -64,6 +60,7 @@ function RecipeDrinkInProgress() {
     setUpdateLocalStorage(true);
   };
 
+  console.log(styles);
   return isLoading ? (<Loading data-testid="loading" />) : (
     <main>
       <img
@@ -86,25 +83,34 @@ function RecipeDrinkInProgress() {
       </h2>
 
       <section>
-        {extractIngredientsFunction(recipe).map(({ ingredient, measure }, index) => (
-          <div key={ index }>
-            <label
-              data-testid={ `${index}-ingredient-step` }
-              style={ {
-                textDecoration: checkedIngredients.includes(index)
-                  ? 'line-through solid rgb(0, 0, 0)'
-                  : 'none',
-              } }
-            >
-              <input
-                type="checkbox"
-                onChange={ () => handleIngredientCheck(index) }
-                checked={ checkedIngredients.includes(index) }
-              />
-              {measure ? `${measure} ${ingredient}` : ingredient}
-            </label>
-          </div>
-        ))}
+        <CheckboxGroup
+          name="ingredients"
+          value={ checkedIngredients }
+          onChange={ handleIngredientChange }
+        >
+          {extractIngredientsFunction(recipe)
+            // .filter(({ ingredient }) => ingredient !== null || ingredient.length > 0)
+            .map(({ ingredient, measure }, index) => (
+              <div key={ index }>
+                <label
+                  data-testid={ `${index}-ingredient-step` }
+                  style={ {
+                    textDecoration: checkedIngredients.includes(index)
+                      ? 'line-through solid rgb(0, 0, 0)'
+                      : 'none',
+                  } }
+                >
+                  <input
+                    type="checkbox"
+                    onChange={ () => handleIngredientCheck(index) }
+                    checked={ checkedIngredients.includes(index) }
+                  />
+                  {measure ? `${measure} ${ingredient}` : ingredient}
+                </label>
+              </div>
+            ))}
+
+        </CheckboxGroup>
       </section>
 
       <section
