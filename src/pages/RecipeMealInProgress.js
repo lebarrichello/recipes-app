@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-// import clipboardCopy from 'clipboard-copy';
+import clipboardCopy from 'clipboard-copy';
 import { Checkbox } from 'antd';
-// import whiteheart from '../images/whiteHeartIcon.svg';
-// import blackHeart from '../images/blackHeartIcon.svg';
 import styles from '../styles/RecipeDetails.module.css';
 import { getFoodRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
-// import { onClickFavoriteDrinkBtn,
-//   onClickFavoriteMealBtn } from '../services/onClickFuntions';
+import { onClickFavoriteMealBtn } from '../services/onClickFuntions';
 import getStatusRecipe from '../services/getStatusRecipe';
 
 const CheckboxGroup = Checkbox.Group;
@@ -21,29 +18,14 @@ function RecipeMealInProgress() {
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
   const history = useHistory();
-
-  //   {
-  //     drinks: {
-  //         id-da-bebida: [lista-de-ingredientes-utilizados],
-  //         ...
-  //     },
-  //     meals: {
-  //         id-da-comida: [lista-de-ingredientes-utilizados],
-  //         ...
-  //     }
-  // }
-
-  function updateCheckedIngredients(statusRecipe) {
-    if (statusRecipe.progress === 'InProgress') {
-      setCheckedIngredients([...statusRecipe.indexIngredients]);
-    }
-  }
+  const [statusRecipe, setStatusRecipe] = useState({});
+  const [linkCopied, setLinkCopied] = useState(false);
 
   useEffect(() => {
     const getRecipe = async () => {
       const mealRecipe = await getFoodRecipeWithId(id);
       setRecipe(mealRecipe);
-      updateCheckedIngredients(getStatusRecipe(id, 'meals'));
+      setStatusRecipe(getStatusRecipe(id, 'meals'));
       setIsLoading(false);
     };
     getRecipe();
@@ -63,6 +45,12 @@ function RecipeMealInProgress() {
       setUpdateLocalStorage(false);
     }
   }, [checkedIngredients, id, updateLocalStorage]);
+
+  useEffect(() => {
+    if (statusRecipe.progress === 'InProgress') {
+      setCheckedIngredients([...statusRecipe.indexIngredients]);
+    }
+  }, [statusRecipe]);
 
   const handleIngredientChange = (newIngredients) => {
     setCheckedIngredients(newIngredients);
@@ -85,6 +73,36 @@ function RecipeMealInProgress() {
         alt="Recipe Preview"
         data-testid="recipe-photo"
       />
+
+      <button
+        type="button"
+        data-testid="share-btn"
+        onClick={ () => {
+          clipboardCopy(`http://localhost:3000/meals/${id}`);
+          setLinkCopied(true);
+        } }
+      >
+        <i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <use xlinkHref="../images/shareIcon.svg" />
+          </svg>
+        </i>
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+        onClick={ () => setStatusRecipe({
+          ...statusRecipe,
+          isFavorite: onClickFavoriteMealBtn(id, recipe),
+        }) }
+        src={ statusRecipe.isFavorite
+          ? '../images/blackHeartIcon.svg'
+          : '../images/whiteHeartIcon.svg' }
+      >
+        Favoritar
+      </button>
+
+      {linkCopied && <p>Link copied!</p>}
 
       <h1 data-testid="recipe-title">{recipe.strMeal}</h1>
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
@@ -129,13 +147,26 @@ function RecipeMealInProgress() {
         data-testid="finish-recipe-btn"
         disabled={ checkedIngredients
           .length !== extractIngredientsFunction(recipe).length }
-        onClick={ () => history.push('/receitas-feitas') }
+        onClick={ () => {
+          history.push('/done-recipes');
+          const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+          const newDoneRecipe = {
+            id: recipe.idMeal,
+            type: 'meal',
+            nationality: recipe.strArea || '',
+            category: recipe.strCategory || '',
+            alcoholicOrNot: recipe.strAlcoholic,
+            name: recipe.strMeal,
+            image: recipe.strMealThumb,
+            doneDate: new Date(Date.now()).toISOString(),
+            tags: recipe.strTags || [],
+          };
+          localStorage.setItem('doneRecipes', JSON
+            .stringify([...doneRecipes, newDoneRecipe]));
+        } }
       >
         Finalizar Receita
       </button>
-
-      <button data-testid="share-btn">Compartilhar</button>
-      <button data-testid="favorite-btn">Favoritar</button>
     </main>
   );
 }
