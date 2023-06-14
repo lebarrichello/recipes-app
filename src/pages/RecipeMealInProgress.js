@@ -3,11 +3,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import { Checkbox } from 'antd';
 import styles from '../styles/RecipeDetails.module.css';
-import PlayerYoutube from '../components/PlayerYoutube';
-import { getFoodRecipeWithId, getFoodsRecomendatios } from '../services/fetchFunctions';
+import { getFoodRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
-import getStatusRecipe from '../services/getStatusRecipe';
 import { onClickFavoriteDrinkBtn } from '../services/onClickFuntions';
 
 const CheckboxGroup = Checkbox.Group;
@@ -17,7 +15,6 @@ function RecipeMealInProgress() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const history = useHistory();
-  const [recomendations, setRecomendations] = useState([]);
   const [statusRecipe, setStatusRecipe] = useState({
     progress: 'NoProgress',
     isFavorite: false });
@@ -34,13 +31,9 @@ function RecipeMealInProgress() {
       const mealRecipe = await getFoodRecipeWithId(id);
       setRecipe(mealRecipe);
 
-      const recomendationsRecipes = await getFoodsRecomendatios();
-      setRecomendations(recomendationsRecipes);
-
       setIsLoading(false);
     };
     getRecipe();
-    setStatusRecipe(getStatusRecipe(id));
   }, [id]);
 
   return isLoading ? (
@@ -111,27 +104,6 @@ function RecipeMealInProgress() {
         <h3>Instruções</h3>
         <p data-testid="instructions">{recipe.strInstructions}</p>
       </section>
-      <section>
-        <h3>Vídeo</h3>
-        <PlayerYoutube url={ recipe.strYoutube } />
-      </section>
-      <h3>Recomendações</h3>
-      <div className={ styles.carousel }>
-        {recomendations.map((food, index) => (
-          <div
-            key={ index }
-            className={ styles.card }
-          >
-            <img
-              className={ styles.recomendationImg }
-              src={ food.strMealThumb }
-              alt={ food.strMeal }
-              data-testid={ `${index}-recomendation-card` }
-            />
-            <p data-testid={ `${index}-recomendation-title` }>{food.strMeal}</p>
-          </div>
-        ))}
-      </div>
       <button
         type="button"
         className={ styles.finishRecipeButton }

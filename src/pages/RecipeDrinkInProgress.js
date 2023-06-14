@@ -4,22 +4,56 @@ import styles from '../styles/RecipeDetails.module.css';
 import { getDrinkRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
+import getStatusRecipe from '../services/getStatusRecipe';
 
 function RecipeDrinkInProgress() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [checkedIngredients, setCheckedIngredients] = useState([]);
+  const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
+
+  //   {
+  //     drinks: {
+  //         id-da-bebida: [lista-de-ingredientes-utilizados],
+  //         ...
+  //     },
+  //     meals: {
+  //         id-da-comida: [lista-de-ingredientes-utilizados],
+  //         ...
+  //     }
+  // }
+
+  function updateCheckedIngredients(statusRecipe) {
+    if (statusRecipe.progress === 'InProgress') {
+      setCheckedIngredients([...statusRecipe.indexIngredients]);
+    }
+  }
 
   useEffect(() => {
     const getRecipe = async () => {
       const drinkRecipe = await getDrinkRecipeWithId(id);
       setRecipe(drinkRecipe);
-
+      updateCheckedIngredients(getStatusRecipe(id, 'drinks'));
       setIsLoading(false);
     };
     getRecipe();
   }, [id]);
+
+  useEffect(() => {
+    if (updateLocalStorage) {
+      const progressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes')) || { drinks: {}, meals: {} };
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...progressRecipes,
+        drinks: {
+          ...progressRecipes.drinks,
+          [id]: [...checkedIngredients],
+        },
+      }));
+      setUpdateLocalStorage(false);
+    }
+  }, [checkedIngredients, id, updateLocalStorage]);
 
   const handleIngredientCheck = (index) => {
     if (checkedIngredients.includes(index)) {
@@ -27,7 +61,9 @@ function RecipeDrinkInProgress() {
     } else {
       setCheckedIngredients([...checkedIngredients, index]);
     }
+    setUpdateLocalStorage(true);
   };
+
   return isLoading ? (<Loading data-testid="loading" />) : (
     <main>
       <img
