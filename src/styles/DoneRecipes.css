@@ -27,6 +27,7 @@
 }
 
 .done-recipe-card__content h3 {
+  color: orange;
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
@@ -57,7 +58,7 @@
 .done-recipe-card_tags {
   background-color: rgba(245, 158, 47, 0.12);
   border: 1px solid rgba(245, 158, 47, 0.12);
-  border-radius: 16px;
+  border-radius: 8px;
   color: orange;
   font-size: 0.85rem;
   overflow: hidden;

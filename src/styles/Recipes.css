@@ -22,7 +22,7 @@
   align-items: center;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
+  border-radius: 8px;
   color: #999;
   display: flex;
   flex-grow: 1;
@@ -43,12 +43,16 @@
   max-width: calc(50% - 10px);
 }
 
-a {
-  text-decoration: none;
+.recipe-card img {
+  border-radius: 16px;
 }
 
-a:hover {
-  color: orange;
+.recipe-card img:hover {
+  filter: opacity(0.5);
+}
+
+a {
+  text-decoration: none;
 }
 
 .recipe-card div {
@@ -69,12 +73,8 @@ a:hover {
   overflow: hidden;
 }
 
-.recipe-card img {
-  border-radius: 16px;
-}
-
 .recipe-card div:hover {
-  color: var(--orange);
+  color: orange;
 }
 
 .recipe-card:hover {
