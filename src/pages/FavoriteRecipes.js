@@ -11,7 +11,7 @@ function FavoriteRecipes() {
   const [filter, setFilter] = useState('All');
 
   useEffect(() => {
-    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes', []));
+    const getFavorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     setFavRecipes(getFavorites);
   }, []);
 
@@ -21,8 +21,8 @@ function FavoriteRecipes() {
   };
 
   const handleBtnDesliked = (r) => {
-    const favorited = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    const newFavorited = favorited.filter((e) => e.id !== r.id);
+    const favorited = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
+    const newFavorited = favorited.filter((e) => e && e.id !== r.id);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorited));
     setFavRecipes(newFavorited);
   };
