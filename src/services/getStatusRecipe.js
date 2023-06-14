@@ -1,18 +1,23 @@
-function getStatusRecipe(id) {
+function getStatusRecipe(id, type = 'undefined') {
   const progressRecipes = JSON
-    .parse(localStorage.getItem('inProgressRecipes'));
+    .parse(localStorage.getItem('inProgressRecipes')) || { drinks: {}, meals: {} };
 
   const doneRecipes = JSON
     .parse(localStorage.getItem('doneRecipes')) || [];
 
   const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
 
+  const isInProgress = !!(progressRecipes[type] && progressRecipes[type][id]);
+
+  console.log(isInProgress);
+
   const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
 
-  if (progressRecipes || progressRecipes?.meals) {
+  if (isInProgress) {
     return {
       progress: 'InProgress',
       isFavorite,
+      indexIngredients: progressRecipes[type][id],
     };
   } if (doneRecipes.find((doneRecipe) => doneRecipe.id === id)) {
     return {

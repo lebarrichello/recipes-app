@@ -31,7 +31,6 @@ function App() {
         <Route path="/favorite-recipes" component={ FavoritesRecipes } />
         <Route path="/meals/:id/in-progress" component={ RecipeMealInProgress } />
         <Route path="/drinks/:id/in-progress" component={ RecipeDrinkInProgress } />
-
         <Route component={ Login } />
       </Switch>
     </AppProvider>

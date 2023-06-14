@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import { Checkbox } from 'antd';
-import whiteheart from '../images/whiteHeartIcon.svg';
-import blackHeart from '../images/blackHeartIcon.svg';
 import styles from '../styles/RecipeDetails.module.css';
-import { getFoodRecipeWithId, getFoodsRecomendatios } from '../services/fetchFunctions';
+import { getFoodRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
-import getStatusRecipe from '../services/getStatusRecipe';
 import { onClickFavoriteMealBtn } from '../services/onClickFuntions';
+import getStatusRecipe from '../services/getStatusRecipe';
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -17,14 +15,42 @@ function RecipeMealInProgress() {
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
-  const history = useHistory();
-  const [recomendations, setRecomendations] = useState([]);
-  const [statusRecipe, setStatusRecipe] = useState({
-    progress: 'NoProgress',
-    isFavorite: false,
-  });
-
   const [checkedIngredients, setCheckedIngredients] = useState([]);
+  const [updateLocalStorage, setUpdateLocalStorage] = useState(false);
+  const history = useHistory();
+  const [statusRecipe, setStatusRecipe] = useState({});
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  useEffect(() => {
+    const getRecipe = async () => {
+      const mealRecipe = await getFoodRecipeWithId(id);
+      setRecipe(mealRecipe);
+      setStatusRecipe(getStatusRecipe(id, 'meals'));
+      setIsLoading(false);
+    };
+    getRecipe();
+  }, [id]);
+
+  useEffect(() => {
+    if (updateLocalStorage) {
+      const progressRecipes = JSON.parse(localStorage
+        .getItem('inProgressRecipes')) || { drinks: {}, meals: {} };
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        ...progressRecipes,
+        meals: {
+          ...progressRecipes.meals,
+          [id]: [...checkedIngredients],
+        },
+      }));
+      setUpdateLocalStorage(false);
+    }
+  }, [checkedIngredients, id, updateLocalStorage]);
+
+  useEffect(() => {
+    if (statusRecipe.progress === 'InProgress') {
+      setCheckedIngredients([...statusRecipe.indexIngredients]);
+    }
+  }, [statusRecipe]);
 
   const handleIngredientChange = (newIngredients) => {
     setCheckedIngredients(newIngredients);
@@ -36,26 +62,10 @@ function RecipeMealInProgress() {
     } else {
       setCheckedIngredients([...checkedIngredients, index]);
     }
+    setUpdateLocalStorage(true);
   };
 
-  useEffect(() => {
-    const getRecipe = async () => {
-      const mealRecipe = await getFoodRecipeWithId(id);
-      setRecipe(mealRecipe);
-
-      const recomendationsRecipes = await getFoodsRecomendatios();
-      setRecomendations(recomendationsRecipes);
-
-      setIsLoading(false);
-    };
-    getRecipe();
-    setStatusRecipe(getStatusRecipe(id));
-  }, [id]);
-  console.log(styles);
-
-  return isLoading ? (
-    <Loading />
-  ) : (
+  return isLoading ? (<Loading data-testid="loading" />) : (
     <main>
       <img
         className={ styles.imgRecipe }
@@ -63,11 +73,12 @@ function RecipeMealInProgress() {
         alt="Recipe Preview"
         data-testid="recipe-photo"
       />
+
       <button
         type="button"
         data-testid="share-btn"
         onClick={ () => {
-          clipboardCopy(window.location.href);
+          clipboardCopy(`http://localhost:3000/meals/${id}`);
           setLinkCopied(true);
         } }
       >
@@ -84,17 +95,18 @@ function RecipeMealInProgress() {
           ...statusRecipe,
           isFavorite: onClickFavoriteMealBtn(id, recipe),
         }) }
+        src={ statusRecipe.isFavorite
+          ? '../images/blackHeartIcon.svg'
+          : '../images/whiteHeartIcon.svg' }
       >
-        {statusRecipe.isFavorite ? (
-          <img src={ blackHeart } alt="Favorite Icon" />
-        ) : (
-          <img src={ whiteheart } alt="Favorite Icon" />
-        )}
         Favoritar
       </button>
 
+      {linkCopied && <p>Link copied!</p>}
+
       <h1 data-testid="recipe-title">{recipe.strMeal}</h1>
       <h2 data-testid="recipe-category">{recipe.strCategory}</h2>
+
       <section>
         <CheckboxGroup
           name="ingredients"
@@ -124,32 +136,34 @@ function RecipeMealInProgress() {
             ))}
         </CheckboxGroup>
       </section>
+
       <section>
         <h3>Instruções</h3>
         <p data-testid="instructions">{recipe.strInstructions}</p>
       </section>
-
-      <h3>Recomendações</h3>
-      <div className={ styles.carousel }>
-        {recomendations.map((food, index) => (
-          <div key={ index } className={ styles.card }>
-            <img
-              className={ styles.recomendationImg }
-              src={ food.strMealThumb }
-              alt={ food.strMeal }
-              data-testid={ `${index}-recomendation-card` }
-            />
-            <p data-testid={ `${index}-recomendation-title` }>{food.strMeal}</p>
-          </div>
-        ))}
-      </div>
       <button
         type="button"
         className={ styles.finishRecipeButton }
         data-testid="finish-recipe-btn"
         disabled={ checkedIngredients
           .length !== extractIngredientsFunction(recipe).length }
-        onClick={ () => history.push('/receitas-feitas') }
+        onClick={ () => {
+          history.push('/done-recipes');
+          const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
+          const newDoneRecipe = {
+            id: recipe.idMeal,
+            type: 'meal',
+            nationality: recipe.strArea || '',
+            category: recipe.strCategory || '',
+            alcoholicOrNot: recipe.strAlcoholic,
+            name: recipe.strMeal,
+            image: recipe.strMealThumb,
+            doneDate: new Date(Date.now()).toISOString(),
+            tags: recipe.strTags || [],
+          };
+          localStorage.setItem('doneRecipes', JSON
+            .stringify([...doneRecipes, newDoneRecipe]));
+        } }
       >
         Finalizar Receita
       </button>
