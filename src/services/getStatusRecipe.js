@@ -9,8 +9,6 @@ function getStatusRecipe(id, type = 'undefined') {
 
   const isInProgress = !!(progressRecipes[type] && progressRecipes[type][id]);
 
-  console.log(isInProgress);
-
   const isFavorite = favoriteRecipes.some((recipe) => recipe.id === id);
 
   if (isInProgress) {
