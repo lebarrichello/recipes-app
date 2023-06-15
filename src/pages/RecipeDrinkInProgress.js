@@ -7,7 +7,6 @@ import { getDrinkRecipeWithId } from '../services/fetchFunctions';
 import { extractIngredientsFunction } from '../services/extractIngredientsFunction';
 import Loading from '../components/Loading';
 import getStatusRecipe from '../services/getStatusRecipe';
-import { onClickFavoriteDrinkBtn } from '../services/onClickFuntions';
 
 const CheckboxGroup = Checkbox.Group;
 
@@ -116,36 +115,7 @@ function RecipeDrinkInProgress() {
 
       </h2>
 
-      <section>
-        <CheckboxGroup
-          name="ingredients"
-          value={ checkedIngredients }
-          onChange={ handleIngredientChange }
-        >
-          {extractIngredientsFunction(recipe)
-            // .filter(({ ingredient }) => ingredient !== null || ingredient.length > 0)
-            .map(({ ingredient, measure }, index) => (
-              <div key={ index }>
-                <label
-                  data-testid={ `${index}-ingredient-step` }
-                  style={ {
-                    textDecoration: checkedIngredients.includes(index)
-                      ? 'line-through solid rgb(0, 0, 0)'
-                      : 'none',
-                  } }
-                >
-                  <input
-                    type="checkbox"
-                    onChange={ () => handleIngredientCheck(index) }
-                    checked={ checkedIngredients.includes(index) }
-                  />
-                  {measure ? `${measure} ${ingredient}` : ingredient}
-                </label>
-              </div>
-            ))}
-
-        </CheckboxGroup>
-      </section>
+      
 
       <section
         data-testid="instructions"
@@ -153,32 +123,7 @@ function RecipeDrinkInProgress() {
         {recipe.strInstructions}
       </section>
 
-      <button
-        type="button"
-        className={ styles.finishRecipeButton }
-        data-testid="finish-recipe-btn"
-        disabled={ checkedIngredients
-          .length !== extractIngredientsFunction(recipe).length }
-        onClick={ () => {
-          history.push('/done-recipes');
-          const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
-          const newDoneRecipe = {
-            id: recipe.idDrink,
-            type: 'drink',
-            nationality: recipe.strArea || '',
-            category: recipe.strCategory || '',
-            name: recipe.strDrink,
-            image: recipe.strDrinkThumb,
-            alcoholicOrNot: recipe.strAlcoholic,
-            doneDate: new Date(Date.now()).toISOString(),
-            tags: recipe.strTags || [],
-          };
-          localStorage.setItem('doneRecipes', JSON
-            .stringify([...doneRecipes, newDoneRecipe]));
-        } }
-      >
-        Finalizar Receita
-      </button>
+      
 
     </main>
   );
