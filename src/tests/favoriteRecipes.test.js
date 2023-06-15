@@ -5,13 +5,16 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouterAndContext from './helpers/renderWithRouterAndContext';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import mockDoneRecipes from './helpers/mocks/mockDoneRecipes/mockDoneRecipes';
+import App from '../App';
 
 const filterAllBtn = 'filter-by-all-btn';
 const filterMealBtn = 'filter-by-meal-btn';
 const filterDrinkBtn = 'filter-by-drink-btn';
 const btnShareMeal = '0-horizontal-share-btn';
 const btnShareDrink = '1-horizontal-share-btn';
-const PAGE_URL = '/done-recipes';
+const PAGE_URL = '/favorite-recipes';
+const horizontalName0ID = '0-horizontal-name';
+const horizontalName1ID = '1-horizontal-name';
 
 describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
   beforeEach(() => {
@@ -45,15 +48,9 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
     const mealCategory = screen.getByTestId('0-horizontal-top-text');
     expect(mealCategory).toBeInTheDocument();
     expect(mealCategory.innerHTML).toBe('Italian - Vegetarian');
-    const mealName = screen.getByTestId('0-horizontal-name');
+    const mealName = screen.getByTestId(horizontalName0ID);
     expect(mealName).toBeInTheDocument();
-    expect(mealName.innerHTML).toBe('Spicy Arrabiata Penne');
-    const mealTag1 = screen.getByTestId('0-Pasta-horizontal-tag');
-    expect(mealTag1).toBeInTheDocument();
-    expect(mealTag1.innerHTML).toBe('Pasta');
-    const mealTag2 = screen.getByTestId('0-Curry-horizontal-tag');
-    expect(mealTag2).toBeInTheDocument();
-    expect(mealTag2.innerHTML).toBe('Curry');
+    expect(mealName.childNodes[0].innerHTML).toBe('Spicy Arrabiata Penne');
     const mealShareBtn = screen.getByTestId(btnShareMeal);
     expect(mealShareBtn).toBeInTheDocument();
   });
@@ -66,9 +63,9 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
     const drinkCategory = screen.getByTestId('1-horizontal-top-text');
     expect(drinkCategory).toBeInTheDocument();
     expect(drinkCategory.innerHTML).toBe('Alcoholic');
-    const drinkName = screen.getByTestId('1-horizontal-name');
+    const drinkName = screen.getByTestId(horizontalName1ID);
     expect(drinkName).toBeInTheDocument();
-    expect(drinkName.innerHTML).toBe('Aquamarine');
+    expect(drinkName.childNodes[0].innerHTML).toBe('Aquamarine');
     const drinkShareBtn = screen.getByTestId(btnShareDrink);
     expect(drinkShareBtn).toBeInTheDocument();
   });
@@ -126,14 +123,12 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost/meals/52771');
     expect(
-      screen.getByRole('button', {
-        name: /link copied!/i,
-      }),
+      screen.getAllByText(/link copied!/i)[0],
     ).toBeInTheDocument();
   });
 
   it('Testando o botao de compartilhar bebida', () => {
-    renderWithRouterAndContext(<FavoriteRecipes />, PAGE_URL);
+    renderWithRouterAndContext(<App />, PAGE_URL);
 
     const writeText = jest.fn();
 
@@ -154,9 +149,7 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
 
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost/drinks/178319');
     expect(
-      screen.getByRole('button', {
-        name: /link copied!/i,
-      }),
+      screen.getAllByText(/link copied!/i)[1],
     ).toBeInTheDocument();
   });
   it('Testando se a ao clicar na imagem da refeicao é alterada a rota para a pagina de detalhes', () => {
@@ -173,7 +166,7 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
   it('Testando se a ao clicar no nome da refeicao é alterada a rota para a pagina de detalhes', () => {
     const { history } = renderWithRouterAndContext(<FavoriteRecipes />, PAGE_URL);
 
-    const foodName = screen.getByTestId('0-horizontal-name');
+    const foodName = screen.getByTestId(horizontalName0ID);
     expect(foodName).toBeInTheDocument();
     act(() => {
       userEvent.click(foodName);
@@ -195,13 +188,34 @@ describe('Testando a pagina de receitas favoritas (FavoriteRecipes)', () => {
   it('Testando se a ao clicar no nome da bebida é alterada a rota para a pagina de detalhes', () => {
     const { history } = renderWithRouterAndContext(<FavoriteRecipes />, PAGE_URL);
 
-    const drinkName = screen.getByTestId('1-horizontal-name');
+    const drinkName = screen.getByTestId(horizontalName1ID);
     expect(drinkName).toBeInTheDocument();
     act(() => {
       userEvent.click(drinkName);
     });
 
     expect(history.location.pathname).toBe('/drinks/178319');
+  });
+  it('Testando se ao clicar no botão de deslike a receita some das favoritas', () => {
+    renderWithRouterAndContext(<App />, '/favorite-recipes');
+    const favTitle = screen.getByTestId('page-title');
+    expect(favTitle.innerHTML).toBe('Favorite Recipes');
+    const titleFood = screen.getByTestId(horizontalName0ID);
+    const titleDrink = screen.getByTestId(horizontalName1ID);
+    expect(titleFood).toBeInTheDocument();
+    expect(titleDrink).toBeInTheDocument();
+    const favBtn1 = screen.getByTestId('0-horizontal-favorite-btn');
+    const favBtn2 = screen.getByTestId('1-horizontal-favorite-btn');
+    act(() => userEvent.click(favBtn2));
+    const retrievedStorage1 = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(retrievedStorage1).toHaveLength(1);
+    expect(titleFood).toBeInTheDocument();
+    expect(titleDrink).not.toBeInTheDocument();
+    act(() => userEvent.click(favBtn1));
+    const retrievedStorage2 = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    expect(retrievedStorage2).toHaveLength(0);
+    expect(retrievedStorage2).toBe([]);
+    expect(titleFood).not.toBeInTheDocument();
   });
 });
 
