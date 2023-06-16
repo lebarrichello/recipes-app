@@ -69,7 +69,7 @@ function Header() {
       <div className="container__header">
         {/* ítulo da página dependendo da rota atual */}
 
-        <h1 data-testid="page-title">{getPageTitle()}</h1>
+        <h3 data-testid="page-title">{getPageTitle()}</h3>
         <div className="header__icons">
           {/* ícone de pesquis */}
           {renderSearchButton()}

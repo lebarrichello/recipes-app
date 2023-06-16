@@ -1,0 +1,103 @@
+.div__FiChevronLeft {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, 0.6) 100%);
+  height: 128px;
+  position: absolute;
+  width: 100%;
+}
+
+.btn-togoback {
+  color: white;
+  left: 8px;
+  position: absolute;
+  top: 16px;
+}
+
+
+.container__recipe-details {
+  background-color: white;
+  border-radius: 16px 16px 0 0;
+  font-family: SourceSansPro , Helvetica , sans-serif;
+  margin-top: -16px;
+  padding: 24px 20px 20px;
+  position: relative;
+  width: 100%;
+}
+
+.recipe-details__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container__recipe-details h2 {
+  font-family: CopperPot , Helvetica , sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.recipe-details-header__category {
+  color: orange;
+}
+
+.crecipe-details__header .recipe-details-header__buttons {
+  align-items: flex-start;
+  display: flex;
+  gap: 20px;
+  padding-top: 4px;
+}
+
+.Like, .Share {
+  color: coral;
+  font-size: 20px;
+}
+
+.container__recipe-details h3 {
+  font-family: CopperPot , Helvetica , sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 24px 0 12px;
+}
+
+.dcontainer__recipe-details ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.container__recipe-details li {
+  color: orange;
+  margin-left: 16px;
+  text-transform: capitalize;
+}
+
+li span {
+  color: black;
+}
+
+.container__instructions {
+  line-height: 1.8rem;
+  text-align: justify;
+}
+
+.video {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-title {
+  color: white;
+  font-weight: 800;
+  margin-left: 5px;
+  margin-top: -40px;
+  position: relative;
+  text-align: left;
+}
+
+.container__recipe-details_button {
+  background: linear-gradient(0deg, white 40%, transparent 100%);
+  bottom: 0;
+  margin-bottom: -1px;
+  padding: 40px 20px 21px;
+  position: sticky;
+}

@@ -76,6 +76,7 @@ function SearchBar({ type }) {
 
   return (
     <div className="container__search-bar">
+      <span>What you want to cook today ?</span>
       <div className="search-bar__form">
         <input
           id="search-input"

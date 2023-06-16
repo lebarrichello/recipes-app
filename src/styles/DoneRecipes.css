@@ -1,6 +1,7 @@
 .container__done-recipes-cards {
   display: flex;
   flex-direction: column;
+  font-family: SourceSansPro , Helvetica , sans-serif;
   gap: 20px;
   margin: 0 20px 92px;
 }
@@ -31,22 +32,19 @@
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .done-recipe-card__nationality-category {
   color: #999;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .done-recipe-card__done-date {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  max-width: 20ch;
+  overflow: hidden;
   padding-left: 1px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .done-recipe-card_tags__container {

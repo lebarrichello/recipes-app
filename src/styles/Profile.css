@@ -2,6 +2,7 @@
   align-items: center;
   display: flex;
   flex-flow: column;
+  font-family: SourceSansPro , Helvetica , sans-serif;
   gap: 20px;
   justify-content: space-between;
   padding: 20px;

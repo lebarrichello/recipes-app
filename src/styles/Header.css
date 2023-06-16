@@ -1,13 +1,16 @@
 .container__header {
   align-items: center;
   display: flex;
+  font-family: SourceSansPro , Helvetica , sans-serif;
   justify-content: space-between;
   padding: 16px;
 }
 
-.container__header h1 {
+.container__header h3 {
+  font-family: CopperPot , Helvetica , sans-serif;
   font-size: 2rem;
   font-weight: 700;
+  line-height: 36px;
   margin: 0;
 }
 

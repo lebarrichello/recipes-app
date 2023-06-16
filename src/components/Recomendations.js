@@ -38,11 +38,12 @@ function Recomendations({ type, id }) {
                 alt="Recommended Recipe Preview"
                 className={ styles.imgRecipeRecomendation }
               />
-              <h2
+              <h4
+                className="recommendation-title"
                 data-testid={ `${index}-recommendation-title` }
               >
                 {name}
-              </h2>
+              </h4>
             </div>
           );
         }
