@@ -17,6 +17,7 @@ function ShareAndFavoriteBtn({ id, recipe, type, link }) {
   return (
     <div>
       <button
+        className="fav-recipe-card__share-button Share"
         type="button"
         data-testid="share-btn"
         onClick={ () => {
@@ -24,9 +25,10 @@ function ShareAndFavoriteBtn({ id, recipe, type, link }) {
           setLinkCopied(true);
         } }
       >
-        Compartilhar
+        Share
       </button>
       <button
+        className="fav-recipe-card__share-button Like"
         type="button"
         data-testid="favorite-btn"
         onClick={ () => setStatusRecipe({
@@ -37,7 +39,7 @@ function ShareAndFavoriteBtn({ id, recipe, type, link }) {
           ? '../images/blackHeartIcon.svg'
           : '../images/whiteHeartIcon.svg' }
       >
-        Favoritar
+        Like
       </button>
       {linkCopied && <p>Link copied!</p>}
     </div>

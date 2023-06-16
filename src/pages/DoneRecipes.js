@@ -110,6 +110,8 @@ function DoneRecipes() {
                     className="done-recipe-card__done-date"
                     data-testid={ `${index}-horizontal-done-date` }
                   >
+                    Feito em:
+                    {' '}
                     {r.doneDate}
 
                   </p>
@@ -119,7 +121,8 @@ function DoneRecipes() {
                   }
                   <div>
                     {
-                      r.tags.map((tag) => (
+                      Array.isArray(r.tags)
+                      && r.tags.map((tag) => (
                         <div
                           className="done-recipe-card_tags__container"
                           data-testid={ `${index}-${tag}-horizontal-tag` }
