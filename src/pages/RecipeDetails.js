@@ -11,8 +11,6 @@ import RecipeBtn from '../components/RecipeBtn';
 import Recomendations from '../components/Recomendations';
 import ShareAndFavoriteBtn from '../components/ShareAndFavoriteBtn';
 import '../styles/Details.css';
-import 'slick-carousel/slick/slick-theme.css';
-import 'slick-carousel/slick/slick.css';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -54,7 +52,7 @@ function RecipeDetails() {
         data-testid="recipe-photo"
       />
       <div className="container__recipe-details">
-        <div className="container__recipe-details-header">
+        <div className="recipe-details__header">
           <div>
             <h2
               data-testid="recipe-title"

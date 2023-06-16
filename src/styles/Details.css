@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.container__recipe-details-header {
+.recipe-details__header {
   display: flex;
   justify-content: space-between;
 }
@@ -39,7 +39,7 @@
   color: orange;
 }
 
-.container__recipe-details-header .recipe-details-header__buttons {
+.crecipe-details__header .recipe-details-header__buttons {
   align-items: flex-start;
   display: flex;
   gap: 20px;
@@ -100,12 +100,4 @@ li span {
   margin-bottom: -1px;
   padding: 40px 20px 21px;
   position: sticky;
-}
-
-.slick-slide {
-  padding: 0 10px;
-}
-
-.slick-list {
-  margin: 0 -10px;
 }

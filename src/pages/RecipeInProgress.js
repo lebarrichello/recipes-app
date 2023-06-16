@@ -9,7 +9,6 @@ import Loading from '../components/Loading';
 import ShareAndFavoriteBtn from '../components/ShareAndFavoriteBtn';
 import IngredientsInProgress from '../components/IngredientsInProgress';
 import { onClickFinishRecipeBtn } from '../services/onClickFuntions';
-import '../styles/Details.css';
 
 function RecipeInProgress() {
   const { id } = useParams();
@@ -55,7 +54,7 @@ function RecipeInProgress() {
         data-testid="recipe-photo"
       />
       <div className="container__recipe-details">
-        <div className="container__recipe-details-header">
+        <div className="recipe-details__header">
           <div>
             <h2
               data-testid="recipe-title"

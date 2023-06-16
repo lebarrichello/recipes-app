@@ -15,6 +15,7 @@
   display: flex;
   margin-bottom: 20px;
   overflow-x: overlay;
+  position: relative;
 }
 
 .imgRecipeRecomendation {

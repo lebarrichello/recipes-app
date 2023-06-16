@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import { getDrinksRecomendations,
   getFoodsRecomendations } from '../services/fetchFunctions';
 import styles from '../styles/RecipeDetails.module.css';
@@ -21,18 +20,8 @@ function Recomendations({ type, id }) {
     getRecomendations();
   }, [id, type]);
 
-  const settings = {
-    dots: true,
-    infinite: false,
-    slidesToShow: window.matchMedia('(min-width: 768px)').matches
-      ? noOfSlidesOnDesktop : 2,
-    slidesToScroll: 2,
-    arrows: false,
-  };
-
   return (
-    <Slider
-      { ...settings }
+    <div
       className={ styles.divRecomendations }
     >
       {recomendations.map(({ img, name }, index) => {
@@ -60,7 +49,7 @@ function Recomendations({ type, id }) {
         }
         return null;
       })}
-    </Slider>
+    </div>
   );
 }
 
