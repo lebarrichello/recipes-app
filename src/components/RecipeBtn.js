@@ -13,7 +13,8 @@ function RecipeBtn({ id, type }) {
         className={ styles.startRecipeBtn }
         type="button"
         data-testid="start-recipe-btn"
-        onClick={ () => push(`/drinks/${id}/in-progress`) }
+        onClick={ () => push(`/${type === 'meal'
+          ? 'meals' : 'drinks'}/${id}/in-progress`) }
       >
         Start Recipe
       </button>

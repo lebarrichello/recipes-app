@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import appFooter from './Components/Footer';
 import AppProvider from './context/AppProvider';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
