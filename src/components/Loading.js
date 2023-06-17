@@ -1,7 +1,9 @@
+import styles from '../styles/Loading.module.css';
+
 function Loading() {
   return (
-    <main>
-      <h1>Carregando...</h1>
+    <main className={ styles.main }>
+      <span className={ styles.loader } />
     </main>
   );
 }

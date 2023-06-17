@@ -32,10 +32,10 @@ function RecipeDetails() {
         const drinkRecipe = await getDrinkRecipeWithId(id);
         setRecipe(drinkRecipe);
       }
-      setIsLoading(false);
+      if (recipe && recipe.img) setIsLoading(false);
     };
     getRecipe();
-  }, [id, type]);
+  }, [id, type, recipe]);
 
   return isLoading ? (<Loading />) : (
     <main>

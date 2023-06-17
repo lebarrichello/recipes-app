@@ -101,3 +101,54 @@ li span {
   padding: 40px 20px 21px;
   position: sticky;
 }
+
+
+.recipe-details__ingredients {
+  display: flex;
+  flex-direction: column;
+}
+
+.ingredient {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  width: 100%;
+}
+
+.checkbox {
+  appearance: none;
+  background-color: white;
+  border: 2px solid orange;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 25px;
+  margin-right: 5px;
+  width: 25px;
+}
+
+.checkbox:checked {
+  background-color: orange;
+  border: 2px solid black;
+}
+
+/* .checkbox:checked:before {
+  color: white;
+  content: '✔';
+  display: inline-block;
+  font-size: 10px;
+  height: 100%;
+  line-height: 25px;
+  text-align: center;
+  width: 100%;
+} */
+
+.label_ingredient {
+  cursor: pointer;
+  height: fit-content;
+  padding-left: 10px;
+}
+
+.label_ingredient.checked_ingredient {
+  text-decoration: line-through solid black;
+}
