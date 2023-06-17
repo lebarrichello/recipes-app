@@ -46,7 +46,6 @@
   width: 150px;
 }
 
-
 .finishRecipeButton:disabled {
   background-color: gray;
 }

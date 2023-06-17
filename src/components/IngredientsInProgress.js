@@ -68,7 +68,16 @@ function IngredientsInProgress({ id, recipe, type, setIsDone }) {
     >
       {recipe.ingredients
         .map(({ ingredient, measure }, index) => (
-          <div key={ index } className="ingredient">
+          <div
+            key={ index }
+            className="ingredient"
+            data-testid={ `${index}-ingredient-step` }
+            style={ {
+              textDecoration: checkedIngredients.includes(index)
+                ? 'line-through solid rgb(0, 0, 0)'
+                : 'none',
+            } }
+          >
             <input
               type="checkbox"
               onChange={ () => handleIngredientCheck(index) }
@@ -77,7 +86,6 @@ function IngredientsInProgress({ id, recipe, type, setIsDone }) {
               id={ `${index}_label` }
             />
             <label
-              data-testid={ `${index}-ingredient-step` }
               className={ checkedIngredients.includes(index)
                 ? 'label_ingredient checked_ingredient' : 'label_ingredient' }
               htmlFor={ `${index}_label` }

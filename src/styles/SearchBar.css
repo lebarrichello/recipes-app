@@ -38,14 +38,14 @@
 .search-bar__form button {
   align-items: center;
   background: white;
-  border: 1px solid orange;
+  border: 1.9px solid orange;
   border-radius: 8px;
   color: orange;
   display: flex;
+  font-size: 14px;
+  font-weight: 500;
   height: 36px;
   justify-content: center;
-  left: 295px;
-  top: 110px;
   width: 55px;
 }
 
@@ -77,10 +77,9 @@
 
 .container__radio-buttons .filter-radio input {
   cursor: pointer;
-  height: 0;
-  opacity: 0;
+  height: 1px;
   position: absolute;
-  width: 0;
+  width: 1px;
 }
 
 .radiomark {

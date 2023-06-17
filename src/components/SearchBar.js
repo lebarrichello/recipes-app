@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchProducts } from '../services/fetchProducts';
 import AppContext from '../context/AppContext';
-/* import '../styles/SearchBar.css'; */
+import '../styles/SearchBar.css';
 
 const FIRSTLETTER = 'first-letter';
 const TWELVE = 12;

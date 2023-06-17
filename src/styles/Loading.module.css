@@ -1,0 +1,29 @@
+.main {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.loader {
+  animation: rotation 1s linear infinite;
+  border: 5px solid orange;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 48px;
+  width: 48px;
+}
+
+@keyframes rotation {
+
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

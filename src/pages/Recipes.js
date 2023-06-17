@@ -6,6 +6,7 @@ import Drinks from '../components/Drinks';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/Recipes.css';
+import Loading from '../components/Loading';
 
 function Recipes() {
   const { recipes, setRecipes } = useContext(AppContext);
@@ -60,8 +61,8 @@ function Recipes() {
       setRecipes(drinkData.drinks.splice(0, TWELVE));
     }
   };
-
-  return (
+  console.log(recipes);
+  return !(recipes) ? (<Loading />) : (
     <div>
       <Header />
       <div className="container__filter-buttons">
@@ -86,27 +87,29 @@ function Recipes() {
           </button>
         ))}
       </div>
-      <div className="container__recipe-cards">
-        <span>
-          { location.pathname === '/meals' ? recipes.map((recipe, i) => (
-            <Meals
-              key={ recipe.strMeal }
-              name={ recipe.strMeal }
-              image={ recipe.strMealThumb }
-              index={ i }
-              idRecipe={ recipe.idMeal }
-            />
-          )) : recipes.map((recipe, i) => (
-            <Drinks
-              key={ recipe.strDrink }
-              name={ recipe.strDrink }
-              image={ recipe.strDrinkThumb }
-              index={ i }
-              idRecipe={ recipe.idDrink }
-            />
-          ))}
-        </span>
-      </div>
+      {!(recipes && recipes[0]) ? (<Loading />) : (
+        <div className="container__recipe-cards">
+          <span>
+            { location.pathname === '/meals' ? recipes.map((recipe, i) => (
+              <Meals
+                key={ recipe.strMeal }
+                name={ recipe.strMeal }
+                image={ recipe.strMealThumb }
+                index={ i }
+                idRecipe={ recipe.idMeal }
+              />
+            )) : recipes.map((recipe, i) => (
+              <Drinks
+                key={ recipe.strDrink }
+                name={ recipe.strDrink }
+                image={ recipe.strDrinkThumb }
+                index={ i }
+                idRecipe={ recipe.idDrink }
+              />
+            ))}
+          </span>
+        </div>
+      )}
       <Footer />
     </div>
   );
