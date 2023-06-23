@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import logoIcon from '../images/logo-Icon.png';
 import SearchBar from './SearchBar';
 import '../styles/Header.css';
 
@@ -67,6 +68,12 @@ function Header() {
   return (
     <header>
       <div className="container__header">
+        <img
+          src={ logoIcon }
+          width="35"
+          height="35"
+          alt="CookBook"
+        />
         {/* ítulo da página dependendo da rota atual */}
 
         <h3 data-testid="page-title">{getPageTitle()}</h3>

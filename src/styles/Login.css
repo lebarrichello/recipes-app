@@ -1,10 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Ubuntu+Mono:ital,wght@1,700&display=swap') ;
+
 .container__login {
   align-items: center;
+  background-image: url('https://www.transparenttextures.com/patterns/graphcoders-lil-fiber.png');
   display: flex;
   flex-direction: column;
   height: 100vh;
   justify-content: center;
   width: 100%;
+}
+
+
+.logo {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  filter: invert(66%) sepia(15%) saturate(6346%) hue-rotate(1deg)
+    brightness(106%) contrast(103%);
+  margin-bottom: 10px;
 }
 
 .form__login {

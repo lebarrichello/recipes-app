@@ -23,7 +23,7 @@ function RecipeDetails() {
   // idFood = 52977
   // idDrink = 15997
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const getRecipe = async () => {
       if (type === 'meal') {
         const foodRecipe = await getFoodRecipeWithId(id);
@@ -35,7 +35,24 @@ function RecipeDetails() {
       if (recipe && recipe.img) setIsLoading(false);
     };
     getRecipe();
-  }, [id, type, recipe]);
+  }, [id, type, recipe]); */
+
+  useEffect(() => {
+    const getRecipe = async () => {
+      let recipeData;
+
+      if (type === 'meal') {
+        recipeData = await getFoodRecipeWithId(id);
+      } else {
+        recipeData = await getDrinkRecipeWithId(id);
+      }
+
+      setRecipe(recipeData);
+      setIsLoading(false);
+    };
+
+    getRecipe();
+  }, [id, type]);
 
   return isLoading ? (<Loading />) : (
     <main>

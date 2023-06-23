@@ -20,6 +20,9 @@ function Footer() {
             data-testid="meals-bottom-btn"
           />
         </Link>
+        <div>
+          Meals
+        </div>
       </div>
 
       <div className="footer-btn">
@@ -32,7 +35,11 @@ function Footer() {
             data-testid="drinks-bottom-btn"
           />
         </Link>
+        <div>
+          Drinks
+        </div>
       </div>
+
     </footer>
   );
 }

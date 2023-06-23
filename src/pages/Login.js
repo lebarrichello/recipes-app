@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import logo from '../images/LOGO.svg';
 import '../styles/Login.css';
 
 function Login() {
@@ -31,15 +32,23 @@ function Login() {
   return (
     <main>
       <div className="container__login">
+        <div className="logo">
+          <img
+            src={ logo }
+            width="256"
+            height="159"
+            alt="CookBook"
+          />
+        </div>
         <div className="form__login">
           <label htmlFor="email">
-            <span>Login</span>
+            <span>E-mail</span>
             <input
               value={ email }
               name="email"
               type="email"
               autoComplete="off"
-              placeholder="Insira seu email"
+              placeholder="enter your email"
               data-testid="email-input"
               onChange={ ({ target }) => {
                 const { value } = target;
@@ -54,7 +63,7 @@ function Login() {
               value={ password }
               name="password"
               type="password"
-              placeholder="Insira sua senha"
+              placeholder="enter your password"
               data-testid="password-input"
               minLength={ 6 }
               onChange={ ({ target }) => {
@@ -70,7 +79,7 @@ function Login() {
             onClick={ handleClick }
             disabled={ isDisabled }
           >
-            Entrar
+            Login
           </button>
         </div>
       </div>

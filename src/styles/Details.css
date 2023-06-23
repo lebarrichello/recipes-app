@@ -12,6 +12,13 @@
   top: 16px;
 }
 
+.btn-togoback:hover {
+  color: orange;
+}
+
+.btn-togoback:active {
+  transform: scale(0.95);
+}
 
 .container__recipe-details {
   background-color: white;
@@ -78,6 +85,11 @@ li span {
   line-height: 1.8rem;
   text-align: justify;
 }
+
+.container__instructions::selection {
+  background-color: rgb(255, 176, 129, 0.12);
+}
+
 
 .video {
   align-items: center;

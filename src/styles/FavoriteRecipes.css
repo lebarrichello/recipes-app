@@ -55,7 +55,21 @@
   border: 0;
 }
 
+.fav-recipe-card__share-button:hover {
+  border: 1px solid rgba(255, 176, 129, 0.12);
+  color: coral;
+}
+
+.fav-recipe-card__share-button:active {
+  transform: scale(0.95);
+}
+
 .fav-recipe-card__share-button img:hover {
+  filter: invert(85%) sepia(35%) saturate(7075%)
+    hue-rotate(358deg) brightness(99%) contrast(107%);
+}
+
+.heart {
   filter: invert(85%) sepia(35%) saturate(7075%)
     hue-rotate(358deg) brightness(99%) contrast(107%);
 }

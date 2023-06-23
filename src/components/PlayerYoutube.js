@@ -16,8 +16,8 @@ function PlayerYoutube({ linkVideo }) {
 
   const videoId = getVideoId(linkVideo);
   const opts = {
-    height: '144',
-    width: '240',
+    height: '100%',
+    width: '100%',
   };
 
   return (

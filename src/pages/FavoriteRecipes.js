@@ -140,6 +140,7 @@ function FavoriteRecipes() {
                       onClick={ () => handleBtnDesliked(r) }
                     >
                       <img
+                        className="heart"
                         data-testid={ `${index}-horizontal-favorite-btn` }
                         src={ blackHeartIcon }
                         alt="Like"

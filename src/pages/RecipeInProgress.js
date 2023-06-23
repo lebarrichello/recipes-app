@@ -102,7 +102,7 @@ function RecipeInProgress() {
             push('/done-recipes');
           } }
         >
-          Finalizar Receita
+          Finish Recipe
         </button>
       </div>
     </main>

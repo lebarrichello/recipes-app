@@ -18,7 +18,7 @@ footer {
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   justify-content: center;
 }
 
@@ -26,4 +26,3 @@ footer {
   filter: invert(85%) sepia(35%) saturate(7075%)
     hue-rotate(358deg) brightness(99%) contrast(107%);
 }
-
