@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import logo from '../images/LOGO.svg';
 import '../styles/Login.css';
+import Modal from '../components/Modal';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setDisabled] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const history = useHistory();
+
+  useEffect(() => {
+    setModalOpen(true);
+  }, []);
 
   const isValidEmail = (testEmail) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,6 +38,7 @@ function Login() {
   return (
     <main>
       <div className="container__login">
+        {modalOpen && <Modal setOpenModal={ setModalOpen } />}
         <div className="logo">
           <img
             src={ logo }

@@ -1,0 +1,32 @@
+.modalContainer {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  position: fixed;
+  top: 0;
+  width: 80%;
+}
+
+.titleCloseBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.titleCloseBtn button {
+  background-color: transparent;
+  border: none;
+  color: orange;
+  font-size: 25px;
+}
+
+.modalContainer .body {
+  align-items: center;
+  display: flex;
+  flex: 50%;
+  font-size: 1rem;
+  justify-content: center;
+  text-align: center;
+}
