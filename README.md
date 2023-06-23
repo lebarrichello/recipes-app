@@ -148,6 +148,5 @@ Para rodar todos os testes:
   <img src="https://contrib.rocks/image?repo=lebarrichello/recipes-app" />
 </a>
 
-Made with [contrib.rocks](https://contrib.rocks).
 
  
